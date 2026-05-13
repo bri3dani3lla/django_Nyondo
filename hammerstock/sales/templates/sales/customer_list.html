@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Customers</title>
+  </head>
+  <body>
+    <h1>Customers</h1>
+
+    <a href="{% url 'customer_add' %}">+ Add Customer</a> 
+    <a href="{% url 'sale_list' %}">Back to Sales</a>
+
+    <hr />
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for customer in customers %}
+        <tr>
+          <td>{{ customer.name }}</td>
+          <td>{{ customer.phone }}</td>
+          <td>{{ customer.address }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3">No customers yet.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

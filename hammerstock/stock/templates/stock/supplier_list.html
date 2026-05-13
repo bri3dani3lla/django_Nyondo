@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Suppliers</title>
+  </head>
+  <body>
+    <h1>Suppliers</h1>
+
+    <a href="{% url 'supplier_add' %}">+ Add Supplier</a> |
+    <a href="{% url 'stock_dashboard' %}">Back to Dashboard</a>
+
+    <hr />
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Credit Balance</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for supplier in suppliers %}
+        <tr>
+          <td>{{ supplier.name }}</td>
+          <td>{{ supplier.phone }}</td>
+          <td>{{ supplier.address }}</td>
+          <td>{{ supplier.credit_balance }}</td>
+          <td>
+            <a href="{% url 'supplier_edit' supplier.pk %}">Edit</a>
+            <a href="{% url 'supplier_delete' supplier.pk %}">Delete</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5">No suppliers yet. Add one above.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

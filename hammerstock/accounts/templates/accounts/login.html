@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Nyondo Stock</title>
+</head>
+<body>
+
+    <h1>Login</h1>
+
+    <a href="{% url 'landing' %}">Back to Home</a>
+
+    <hr>
+
+    <!-- Show error message if login failed -->
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Username</label><br>
+        <input type="text" name="username"><br><br>
+
+        <label>Password</label><br>
+        <input type="password" name="password"><br><br>
+
+        <button type="submit">Login</button>
+    </form>
+
+</body>
+</html>

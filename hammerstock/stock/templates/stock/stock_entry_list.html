@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Stock Entries</title>
+  </head>
+  <body>
+    <h1>Stock Entries</h1>
+
+    <a href="{% url 'stock_entry_add' %}">+ Register Stock Entry</a> |
+    <a href="{% url 'stock_dashboard' %}">Back to Dashboard</a>
+
+    <hr />
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Supplier</th>
+          <th>Quantity</th>
+          <th>Unit Cost</th>
+          <th>Selling Price</th>
+          <th>Payment Type</th>
+          <th>Amount Paid</th>
+          <th>Amount Owed</th>
+          <th>Date Received</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for entry in entries %}
+        <tr>
+          <td>{{ entry.product }}</td>
+          <td>{{ entry.supplier }}</td>
+          <td>{{ entry.quantity }}</td>
+          <td>{{ entry.unit_cost }}</td>
+          <td>{{ entry.unit_selling_price }}</td>
+          <td>{{ entry.get_payment_type_display }}</td>
+          <td>{{ entry.amount_paid }}</td>
+          <!-- calling the method we used in models.py -->
+          <td>{{ entry.amount_owed }}</td>
+          <td>{{ entry.date_received }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="9">No stock entries yet.</td>
+          <td>
+            <a href="{% url 'stock_entry_delete' entry.pk %}">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

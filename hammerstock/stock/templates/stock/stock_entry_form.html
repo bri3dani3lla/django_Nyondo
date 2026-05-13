@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+
+    <a href="{% url 'stock_entry_list' %}">Back to Stock Entries</a>
+
+    <hr />
+
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Save Entry</button>
+    </form>
+  </body>
+</html>

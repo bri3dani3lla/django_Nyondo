@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales</title>
+</head>
+<body>
+
+    <h1>Sales</h1>
+
+    <a href="{% url 'sale_add' %}">+ Record Sale</a> 
+    <a href="{% url 'customer_list' %}">Customers</a> 
+    <a href="{% url 'stock_dashboard' %}">Stock Dashboard</a> 
+    <a href="{% url 'logout' %}">Logout</a>
+
+    <hr>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Sale #</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Goods Total</th>
+                <th>Transport</th>
+                <th>Grand Total</th>
+                <th>Served By</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+            <tr>
+                <td>{{ sale.pk }}</td>
+                <td>{{ sale.customer|default:"Walk-in" }}</td>
+                <td>{{ sale.sale_date }}</td>
+                <td>{{ sale.goods_total }}</td>
+                <td>{{ sale.get_transport_status_display }}</td>
+                <td>{{ sale.grand_total }}</td>
+                <td>{{ sale.served_by }}</td>
+                <td>
+                    <a href="{% url 'sale_detail' sale.pk %}">View</a> 
+                    <a href="{% url 'sale_delete' sale.pk %}">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">No sales yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

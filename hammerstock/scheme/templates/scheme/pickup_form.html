@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+
+    <h1>{{ title }}</h1>
+
+    <a href="{% url 'scheme_customer_detail' deposit.customer.pk %}">
+        Back to Customer
+    </a>
+
+    <hr>
+
+    <!-- Show deposit summary before recording pickup -->
+    <h3>Deposit Summary</h3>
+    <p><strong>Customer:</strong> {{ deposit.customer.full_name }}</p>
+    <p><strong>Product:</strong> {{ deposit.product }}</p>
+    <p><strong>Amount Deposited:</strong> {{ deposit.amount }} UGX</p>
+
+    <hr>
+
+    <h3>Record Pickup</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Confirm Pickup</button>
+    </form>
+
+</body>
+</html> 

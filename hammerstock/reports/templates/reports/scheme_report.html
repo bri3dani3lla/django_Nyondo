@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scheme Report</title>
+</head>
+<body>
+
+    <h1>Deposit Scheme Report</h1>
+
+    <a href="{% url 'reports_dashboard' %}">Back to Reports</a>
+
+    <hr>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>NIN</th>
+                <th>Phone</th>
+                <th>Occupation</th>
+                <th>Total Deposited</th>
+                <th>Pending Deposits</th>
+                <th>Picked Deposits</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ customer.full_name }}</td>
+                <td>{{ customer.nin }}</td>
+                <td>{{ customer.phone }}</td>
+                <td>{{ customer.occupation }}</td>
+                <td>{{ customer.total_deposited }} UGX</td>
+                <!-- count pending deposits for this customer -->
+                <td>{{ customer.deposits.filter.pending }}</td>
+                <td>
+                    {% with picked=customer.deposits.all %}
+                        {{ picked|length }}
+                    {% endwith %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No scheme customers yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

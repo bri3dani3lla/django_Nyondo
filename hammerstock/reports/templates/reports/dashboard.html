@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reports</title>
+</head>
+<body>
+
+    <h1>Reports Dashboard</h1>
+
+    <a href="{% url 'stock_dashboard' %}">Stock</a> |
+    <a href="{% url 'sale_list' %}">Sales</a> |
+    <a href="{% url 'scheme_customer_list' %}">Scheme</a> |
+    <a href="{% url 'logout' %}">Logout</a>
+
+    <hr>
+
+    <!-- Stock Summary -->
+    <h2>Stock Summary</h2>
+    <p><strong>Total Products:</strong> {{ total_products }}</p>
+    <p><strong>Out of Stock:</strong> {{ out_of_stock }}</p>
+    <a href="{% url 'stock_report' %}">View Full Stock Report</a>
+
+    <hr>
+
+    <!-- Sales Summary -->
+    <h2>Sales Summary</h2>
+    <p><strong>Total Sales:</strong> {{ total_sales }}</p>
+    <p><strong>Total Revenue:</strong> {{ total_revenue }} UGX</p>
+    <a href="{% url 'sales_report' %}">View Full Sales Report</a>
+
+    <hr>
+
+    <!-- Supplier Credit Summary -->
+    <h2>Suppliers on Credit</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Supplier</th>
+                <th>Credit Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in suppliers_on_credit %}
+            <tr>
+                <td>{{ supplier.name }}</td>
+                <td>{{ supplier.credit_balance }} UGX</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No suppliers on credit.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+
+    <!-- Scheme Summary -->
+    <h2>Deposit Scheme Summary</h2>
+    <p><strong>Total Scheme Customers:</strong> {{ total_scheme_customers }}</p>
+    <p><strong>Pending Deposits:</strong> {{ pending_deposits }}</p>
+    <p><strong>Picked Deposits:</strong> {{ picked_deposits }}</p>
+    <a href="{% url 'scheme_report' %}">View Full Scheme Report</a>
+
+</body>
+</html>

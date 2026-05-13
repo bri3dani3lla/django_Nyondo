@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ customer.full_name }}</title>
+</head>
+<body>
+
+    <h1>{{ customer.full_name }}</h1>
+
+    <a href="{% url 'scheme_customer_list' %}">Back to Customers</a> 
+    <a href="{% url 'deposit_add' %}">+ Record Deposit</a>
+
+    <hr>
+
+    <!-- Customer details -->
+    <p><strong>NIN:</strong> {{ customer.nin }}</p>
+    <p><strong>Phone:</strong> {{ customer.phone }}</p>
+    <p><strong>Occupation:</strong> {{ customer.occupation }}</p>
+    <p><strong>Address:</strong> {{ customer.address }}</p>
+    <p><strong>Total Deposited:</strong> {{ customer.total_deposited }} UGX</p>
+
+    <hr>
+
+    <!-- All deposits for this customer -->
+    <h3>Deposit History</h3>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Product</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Quantity Picked</th>
+                <th>Picked Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for deposit in deposits %}
+            <tr>
+                <td>{{ deposit.deposit_date }}</td>
+                <td>{{ deposit.product }}</td>
+                <td>{{ deposit.amount }} UGX</td>
+                <td>{{ deposit.get_status_display }}</td>
+                <td>{{ deposit.quantity_picked|default:"-" }}</td>
+                <td>{{ deposit.picked_date|default:"-" }}</td>
+                <td>
+                    <a href="{% url 'deposit_receipt' deposit.pk %}">Receipt</a>
+                    {% if deposit.status == 'pending' %}
+                    |
+                    <a href="{% url 'deposit_pickup' deposit.pk %}">Record Pickup</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No deposits yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

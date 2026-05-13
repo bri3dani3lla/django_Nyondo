@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+
+    <a href="{% url 'product_list' %}">Back to Products</a>
+
+    <hr />
+
+<!-- method="post" means we are submitting data to the server -->
+<!-- {% csrf_token %} protects the form from attacks — always required in Django forms -->
+    <form method="post">
+      {% csrf_token %}
+
+<!-- Django renders each form field automatically -->
+      {{ form.as_p }}
+
+      <button type="submit">Save Product</button>
+    </form>
+  </body>
+</html>

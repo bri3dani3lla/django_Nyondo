@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Products</title>
+  </head>
+  <body>
+    <h1>Products</h1>
+
+    <a href="{% url 'product_add' %}">+ Add Product</a> |
+    <a href="{% url 'stock_dashboard' %}">Back to Dashboard</a>
+
+    <hr />
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Unit</th>
+          <th>Description</th>
+          <th>Quantity in Stock</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr>
+          <td>{{ product.name }}</td>
+          <td>{{ product.get_category_display }}</td>
+          <td>{{ product.get_unit_display }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.quantity_in_stock }}</td>
+          <td>
+            <a href="{% url 'product_edit' product.pk %}">Edit</a>
+            <a href="{% url 'product_delete' product.pk %}">Delete</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6">No products yet. Add one above.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

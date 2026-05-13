@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+
+    <h1>{{ title }}</h1>
+
+    <a href="{% url 'sale_list' %}">Back to Sales</a>
+
+    <hr>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <h3>Sale Details</h3>
+    <!-- Sale form — customer, date, within_10km -->
+        {{ form.as_p }}
+
+        <h3>Product Being Sold</h3>
+    <!-- Item form — product, quantity, unit_price -->
+        {{ itemform.as_p }}
+
+        <br>
+        <button type="submit">Save Sale</button>
+    </form>
+
+</body>
+</html>

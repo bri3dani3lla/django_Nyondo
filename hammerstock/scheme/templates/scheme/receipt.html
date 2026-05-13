@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Receipt {{ receipt.receipt_number }}</title>
+</head>
+<body>
+
+    <h1>Nyondo General Hardware LTD</h1>
+    <p>Nansana, Uganda</p>
+
+    <hr>
+
+    <h2>DEPOSIT RECEIPT</h2>
+    <p><strong>Receipt No:</strong> {{ receipt.receipt_number }}</p>
+    <p><strong>Date:</strong> {{ receipt.issued_at|date:"M d, Y" }}</p>
+
+    <hr>
+
+    <!-- Customer details -->
+    <h3>Customer Details</h3>
+    <p><strong>Name:</strong> {{ deposit.customer.full_name }}</p>
+    <p><strong>NIN:</strong> {{ deposit.customer.nin }}</p>
+    <p><strong>Phone:</strong> {{ deposit.customer.phone }}</p>
+
+    <hr>
+
+    <!-- Deposit details -->
+    <h3>Deposit Details</h3>
+    <p><strong>Product:</strong> {{ deposit.product }}</p>
+    <p><strong>Amount Deposited:</strong> {{ deposit.amount }} UGX</p>
+    <p><strong>Status:</strong> {{ deposit.get_status_display }}</p>
+
+    <hr>
+
+    <p><em>This is a temporary receipt. Keep it safe.</em></p>
+    <p><em>Goods will be released based on amount paid on day of pickup.</em></p>
+
+    <hr>
+
+    <a href="{% url 'scheme_customer_detail' deposit.customer.pk %}">
+        Back to Customer
+    </a>
+
+</body>
+</html>
