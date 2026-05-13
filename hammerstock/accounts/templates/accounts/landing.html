@@ -1,19 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Welcome to Nyondo Stock</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Welcome to Nyondo General Hardware LTD</h1>
-    <p>A wholesale and retail hardware store located in Nansana.</p>
+{% block title %}Welcome to Nyondo Stock{% endblock %}
 
-    <hr>
+{% block content %}
 
-    <h3>What would you like to do?</h3>
+    <div style="text-align: center; padding: 60px 20px;">
 
-    <a href="{% url 'login' %}">Login to the System</a>
+        <!-- Logo box -->
+        <div style="display: inline-block; background-color: #6B0F1A; 
+                    padding: 20px 30px; border-radius: 12px; margin-bottom: 30px;">
+            <div style="background-color: #C9A84C; color: #6B0F1A; 
+                        font-size: 36px; font-weight: bold; 
+                        width: 70px; height: 70px; border-radius: 10px;
+                        display: flex; align-items: center; 
+                        justify-content: center; margin: 0 auto 10px;">
+                NH
+            </div>
+            <p style="color: #F2E8D5; font-size: 20px; 
+                      font-weight: bold; letter-spacing: 2px;">
+                NYONDO HARDWARE
+            </p>
+            <p style="color: #C9A84C; font-size: 12px; letter-spacing: 1px;">
+                STOCK MANAGEMENT SYSTEM
+            </p>
+        </div>
 
-</body>
-</html>
+        <h1 style="border: none; padding: 0; margin-bottom: 10px;">
+            Welcome to Nyondo General Hardware LTD
+        </h1>
+        <p style="color: #888; margin-bottom: 40px;">
+            A wholesale and retail hardware store located in Nansana, Uganda.
+        </p>
+
+        <a href="{% url 'login' %}" 
+           style="background-color: #6B0F1A; color: #F2E8D5; 
+                  padding: 14px 40px; border-radius: 6px; 
+                  font-size: 16px; font-weight: bold;">
+            Login to the System
+        </a>
+
+    </div>
+
+{% endblock %}

@@ -1,28 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sale Detail</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Sale Detail{% endblock %}
+
+{% block content %}
 
     <h1>Sale #{{ sale.pk }}</h1>
 
-    <a href="{% url 'sale_list' %}">Back to Sales</a>
+    <div class="action-bar">
+        <a href="{% url 'sale_list' %}">Back to Sales</a>
+    </div>
 
-    <hr>
+    <div class="cards">
+        <div class="card">
+            <p>Date</p>
+            <h2>{{ sale.sale_date }}</h2>
+        </div>
+        <div class="card">
+            <p>Customer</p>
+            <h2>{{ sale.customer|default:"Walk-in" }}</h2>
+        </div>
+        <div class="card">
+            <p>Served By</p>
+            <h2>{{ sale.served_by }}</h2>
+        </div>
+        <div class="card">
+            <p>Transport</p>
+            <h2>{{ sale.get_transport_status_display }}</h2>
+        </div>
+    </div>
 
-<!-- Sale information -->
-    <p><strong>Date:</strong> {{ sale.sale_date }}</p>
-    <p><strong>Customer:</strong> {{ sale.customer|default:"Walk-in" }}</p>
-    <p><strong>Served By:</strong> {{ sale.served_by }}</p>
-    <p><strong>Delivery:</strong> {{ sale.get_transport_status_display }}</p>
-
-    <hr>
-
-<!-- Items in this sale -->
     <h3>Items Sold</h3>
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Product</th>
@@ -36,19 +44,16 @@
             <tr>
                 <td>{{ item.product }}</td>
                 <td>{{ item.quantity }}</td>
-                <td>{{ item.unit_price }}</td>
-                <td>{{ item.line_total }}</td>
+                <td>{{ item.unit_price }} UGX</td>
+                <td>{{ item.line_total }} UGX</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <hr>
-
-<!-- Totals -->
+    <br>
     <p><strong>Goods Total:</strong> {{ sale.goods_total }} UGX</p>
     <p><strong>Transport Fee:</strong> {{ sale.transport_fee }} UGX</p>
     <p><strong>Grand Total:</strong> {{ sale.grand_total }} UGX</p>
 
-</body>
-</html>
+{% endblock %}

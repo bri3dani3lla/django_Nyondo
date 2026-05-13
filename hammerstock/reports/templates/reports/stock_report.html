@@ -1,49 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sales Report</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Sales Report</h1>
+{% block title %}Stock Report{% endblock %}
 
-    <a href="{% url 'reports_dashboard' %}">Back to Reports</a>
+{% block content %}
 
-    <hr>
+    <h1>Stock Report</h1>
 
-    <p><strong>Total Revenue:</strong> {{ total_revenue }} UGX</p>
+    <div class="action-bar">
+        <a href="{% url 'reports_dashboard' %}">Back to Reports</a>
+    </div>
 
-    <table border="1">
+    <table>
         <thead>
             <tr>
-                <th>Sale #</th>
-                <th>Date</th>
-                <th>Customer</th>
-                <th>Goods Total</th>
-                <th>Transport</th>
-                <th>Grand Total</th>
-                <th>Served By</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Unit</th>
+                <th>Quantity in Stock</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
-            {% for sale in sales %}
+            {% for product in products %}
             <tr>
-                <td>{{ sale.pk }}</td>
-                <td>{{ sale.sale_date }}</td>
-                <td>{{ sale.customer|default:"Walk-in" }}</td>
-                <td>{{ sale.goods_total }} UGX</td>
-                <td>{{ sale.get_transport_status_display }}</td>
-                <td>{{ sale.grand_total }} UGX</td>
-                <td>{{ sale.served_by }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.get_category_display }}</td>
+                <td>{{ product.get_unit_display }}</td>
+                <td>{{ product.quantity_in_stock }}</td>
+                <td>
+                    {% if product.quantity_in_stock == 0 %}
+                        <span style="color: red; font-weight: bold;">Out of Stock</span>
+                    {% elif product.quantity_in_stock < 10 %}
+                        <span style="color: orange; font-weight: bold;">Low Stock</span>
+                    {% else %}
+                        <span style="color: green; font-weight: bold;">In Stock</span>
+                    {% endif %}
+                </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="7">No sales yet.</td>
+                <td colspan="5">No products found.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-</body>
-</html>
+{% endblock %} 

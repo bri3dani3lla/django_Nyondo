@@ -6,6 +6,16 @@
 
     <h1>Stock Dashboard</h1>
 
+    <!-- Quick action buttons -->
+    <div class="action-bar">
+        <a href="{% url 'product_add' %}">+ Add Product</a>
+        <a href="{% url 'product_list' %}">View Products</a>
+        <a href="{% url 'supplier_add' %}">+ Add Supplier</a>
+        <a href="{% url 'supplier_list' %}">View Suppliers</a>
+        <a href="{% url 'stock_entry_add' %}">+ Register Stock Entry</a>
+        <a href="{% url 'stock_entry_list' %}">View Stock Entries</a>
+    </div>
+
     <h2>Current Stock Levels</h2>
 
     <table>

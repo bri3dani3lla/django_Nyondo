@@ -1,20 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sales Report</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Sales Report{% endblock %}
+
+{% block content %}
 
     <h1>Sales Report</h1>
 
-    <a href="{% url 'reports_dashboard' %}">Back to Reports</a>
+    <div class="action-bar">
+        <a href="{% url 'reports_dashboard' %}">Back to Reports</a>
+    </div>
 
-    <hr>
+    <div class="cards">
+        <div class="card">
+            <p>Total Sales</p>
+            <h2>{{ sales|length }}</h2>
+        </div>
+        <div class="card">
+            <p>Total Revenue</p>
+            <h2>{{ total_revenue }} UGX</h2>
+        </div>
+    </div>
 
-    <p><strong>Total Revenue:</strong> {{ total_revenue }} UGX</p>
-
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Sale #</th>
@@ -45,5 +52,4 @@
         </tbody>
     </table>
 
-</body>
-</html>
+{% endblock %}

@@ -1,19 +1,19 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>{{ title }}</title>
-  </head>
-  <body>
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
     <h1>{{ title }}</h1>
 
-    <a href="{% url 'supplier_list' %}">Back to Suppliers</a>
-
-    <hr />
+    <div class="action-bar">
+        <a href="{% url 'supplier_list' %}">Back to Suppliers</a>
+    </div>
 
     <form method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <button type="submit">Save Supplier</button>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Supplier</button>
     </form>
-  </body>
-</html>
+
+{% endblock %}

@@ -1,26 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
 
     <h1>{{ title }}</h1>
 
-    <a href="{% url 'scheme_customer_detail' deposit.customer.pk %}">
-        Back to Customer
-    </a>
+    <div class="action-bar">
+        <a href="{% url 'scheme_customer_detail' deposit.customer.pk %}">Back to Customer</a>
+    </div>
 
-    <hr>
-
-    <!-- Show deposit summary before recording pickup -->
-    <h3>Deposit Summary</h3>
-    <p><strong>Customer:</strong> {{ deposit.customer.full_name }}</p>
-    <p><strong>Product:</strong> {{ deposit.product }}</p>
-    <p><strong>Amount Deposited:</strong> {{ deposit.amount }} UGX</p>
-
-    <hr>
+    <div class="cards">
+        <div class="card">
+            <p>Customer</p>
+            <h2>{{ deposit.customer.full_name }}</h2>
+        </div>
+        <div class="card">
+            <p>Product</p>
+            <h2>{{ deposit.product }}</h2>
+        </div>
+        <div class="card">
+            <p>Amount Deposited</p>
+            <h2>{{ deposit.amount }} UGX</h2>
+        </div>
+    </div>
 
     <h3>Record Pickup</h3>
     <form method="post">
@@ -29,5 +32,4 @@
         <button type="submit">Confirm Pickup</button>
     </form>
 
-</body>
-</html> 
+{% endblock %}

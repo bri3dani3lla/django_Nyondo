@@ -1,39 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Reports</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
 
     <h1>Reports Dashboard</h1>
 
-    <a href="{% url 'stock_dashboard' %}">Stock</a> |
-    <a href="{% url 'sale_list' %}">Sales</a> |
-    <a href="{% url 'scheme_customer_list' %}">Scheme</a> |
-    <a href="{% url 'logout' %}">Logout</a>
+    <!-- Summary cards -->
+    <div class="cards">
+        <div class="card">
+            <p>Total Products</p>
+            <h2>{{ total_products }}</h2>
+        </div>
+        <div class="card">
+            <p>Out of Stock</p>
+            <h2>{{ out_of_stock }}</h2>
+        </div>
+        <div class="card">
+            <p>Total Sales</p>
+            <h2>{{ total_sales }}</h2>
+        </div>
+        <div class="card">
+            <p>Total Revenue</p>
+            <h2>{{ total_revenue }} UGX</h2>
+        </div>
+        <div class="card">
+            <p>Scheme Customers</p>
+            <h2>{{ total_scheme_customers }}</h2>
+        </div>
+        <div class="card">
+            <p>Pending Deposits</p>
+            <h2>{{ pending_deposits }}</h2>
+        </div>
+        <div class="card">
+            <p>Picked Deposits</p>
+            <h2>{{ picked_deposits }}</h2>
+        </div>
+    </div>
 
     <hr>
 
-    <!-- Stock Summary -->
-    <h2>Stock Summary</h2>
-    <p><strong>Total Products:</strong> {{ total_products }}</p>
-    <p><strong>Out of Stock:</strong> {{ out_of_stock }}</p>
-    <a href="{% url 'stock_report' %}">View Full Stock Report</a>
+    <!-- Report links -->
+    <div class="action-bar">
+        <a href="{% url 'stock_report' %}">View Stock Report</a>
+        <a href="{% url 'sales_report' %}">View Sales Report</a>
+        <a href="{% url 'scheme_report' %}">View Scheme Report</a>
+    </div>
 
     <hr>
 
-    <!-- Sales Summary -->
-    <h2>Sales Summary</h2>
-    <p><strong>Total Sales:</strong> {{ total_sales }}</p>
-    <p><strong>Total Revenue:</strong> {{ total_revenue }} UGX</p>
-    <a href="{% url 'sales_report' %}">View Full Sales Report</a>
-
-    <hr>
-
-    <!-- Supplier Credit Summary -->
+    <!-- Suppliers on credit -->
     <h2>Suppliers on Credit</h2>
-    <table border="1">
+
+    <table>
         <thead>
             <tr>
                 <th>Supplier</th>
@@ -54,14 +73,4 @@
         </tbody>
     </table>
 
-    <hr>
-
-    <!-- Scheme Summary -->
-    <h2>Deposit Scheme Summary</h2>
-    <p><strong>Total Scheme Customers:</strong> {{ total_scheme_customers }}</p>
-    <p><strong>Pending Deposits:</strong> {{ pending_deposits }}</p>
-    <p><strong>Picked Deposits:</strong> {{ picked_deposits }}</p>
-    <a href="{% url 'scheme_report' %}">View Full Scheme Report</a>
-
-</body>
-</html>
+{% endblock %}

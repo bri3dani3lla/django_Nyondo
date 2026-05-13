@@ -1,21 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sales</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Sales{% endblock %}
+
+{% block content %}
 
     <h1>Sales</h1>
 
-    <a href="{% url 'sale_add' %}">+ Record Sale</a> 
-    <a href="{% url 'customer_list' %}">Customers</a> 
-    <a href="{% url 'stock_dashboard' %}">Stock Dashboard</a> 
-    <a href="{% url 'logout' %}">Logout</a>
+    <div class="action-bar">
+        <a href="{% url 'sale_add' %}">+ Record Sale</a>
+        <a href="{% url 'customer_list' %}">View Customers</a>
+        <a href="{% url 'customer_add' %}">+ Add Customer</a>
+    </div>
 
-    <hr>
-
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Sale #</th>
@@ -34,13 +31,13 @@
                 <td>{{ sale.pk }}</td>
                 <td>{{ sale.customer|default:"Walk-in" }}</td>
                 <td>{{ sale.sale_date }}</td>
-                <td>{{ sale.goods_total }}</td>
+                <td>{{ sale.goods_total }} UGX</td>
                 <td>{{ sale.get_transport_status_display }}</td>
-                <td>{{ sale.grand_total }}</td>
+                <td>{{ sale.grand_total }} UGX</td>
                 <td>{{ sale.served_by }}</td>
                 <td>
-                    <a href="{% url 'sale_detail' sale.pk %}">View</a> 
-                    <a href="{% url 'sale_delete' sale.pk %}">Delete</a>
+                    <a class="action-edit" href="{% url 'sale_detail' sale.pk %}">View</a>
+                    <a class="action-delete" href="{% url 'sale_delete' sale.pk %}">Delete</a>
                 </td>
             </tr>
             {% empty %}
@@ -51,5 +48,4 @@
         </tbody>
     </table>
 
-</body>
-</html>
+{% endblock %}

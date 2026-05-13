@@ -1,33 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login - Nyondo Stock</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Login</h1>
+{% block title %}Login - Nyondo Stock{% endblock %}
 
-    <a href="{% url 'landing' %}">Back to Home</a>
+{% block content %}
 
-    <hr>
+    <div style="max-width: 400px; margin: 60px auto; 
+                background: white; padding: 40px; 
+                border-radius: 8px; border-top: 4px solid #6B0F1A;">
 
-    <!-- Show error message if login failed -->
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
-    {% endif %}
+        <h1 style="text-align: center; margin-bottom: 30px;">Login</h1>
 
-    <form method="post">
-        {% csrf_token %}
+        <!-- Show error message if login failed -->
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
 
-        <label>Username</label><br>
-        <input type="text" name="username"><br><br>
+        <form method="post">
+            {% csrf_token %}
 
-        <label>Password</label><br>
-        <input type="password" name="password"><br><br>
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Enter your username">
 
-        <button type="submit">Login</button>
-    </form>
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter your password">
 
-</body>
-</html>
+            <button type="submit" style="width: 100%; padding: 12px; 
+                                         font-size: 15px; margin-top: 10px;">
+                Login
+            </button>
+        </form>
+
+        <p style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'landing' %}">Back to Home</a>
+        </p>
+
+    </div>
+
+{% endblock %} 

@@ -1,16 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
 
     <h1>{{ title }}</h1>
 
-    <a href="{% url 'scheme_customer_list' %}">Back to Customers</a>
-
-    <hr>
+    <div class="action-bar">
+        <a href="{% url 'scheme_customer_list' %}">Back to Customers</a>
+    </div>
 
     <form method="post">
         {% csrf_token %}
@@ -18,5 +16,4 @@
         <button type="submit">Save Deposit</button>
     </form>
 
-</body>
-</html>
+{% endblock %}

@@ -1,21 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Scheme Customers</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Scheme Customers{% endblock %}
+
+{% block content %}
 
     <h1>Deposit Scheme Customers</h1>
 
-    <a href="{% url 'scheme_customer_add' %}">+ Register Customer</a> 
-    <a href="{% url 'deposit_add' %}">+ Record Deposit</a> 
-    <a href="{% url 'stock_dashboard' %}">Stock Dashboard</a> 
-    <a href="{% url 'logout' %}">Logout</a>
+    <div class="action-bar">
+        <a href="{% url 'scheme_customer_add' %}">+ Register Customer</a>
+        <a href="{% url 'deposit_add' %}">+ Record Deposit</a>
+    </div>
 
-    <hr>
-
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Full Name</th>
@@ -34,21 +30,19 @@
                 <td>{{ customer.nin }}</td>
                 <td>{{ customer.phone }}</td>
                 <td>{{ customer.occupation }}</td>
-<!-- calling the method we wrote in models.py -->
                 <td>{{ customer.total_deposited }} UGX</td>
                 <td>{{ customer.registered_at|date:"M d, Y" }}</td>
                 <td>
-                    <a href="{% url 'scheme_customer_detail' customer.pk %}">View</a>
-                    <a href="{% url 'scheme_customer_edit' customer.pk %}">Edit</a>
+                    <a class="action-edit" href="{% url 'scheme_customer_detail' customer.pk %}">View</a>
+                    <a class="action-edit" href="{% url 'scheme_customer_edit' customer.pk %}">Edit</a>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="7">No scheme customers registered yet.</td>
+                <td colspan="7">No scheme customers yet.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-</body>
-</html>
+{% endblock %} 

@@ -1,31 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ customer.full_name }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}{{ customer.full_name }}{% endblock %}
+
+{% block content %}
 
     <h1>{{ customer.full_name }}</h1>
 
-    <a href="{% url 'scheme_customer_list' %}">Back to Customers</a> 
-    <a href="{% url 'deposit_add' %}">+ Record Deposit</a>
+    <div class="action-bar">
+        <a href="{% url 'scheme_customer_list' %}">Back to Customers</a>
+        <a href="{% url 'deposit_add' %}">+ Record Deposit</a>
+    </div>
 
-    <hr>
+    <div class="cards">
+        <div class="card">
+            <p>NIN</p>
+            <h2>{{ customer.nin }}</h2>
+        </div>
+        <div class="card">
+            <p>Phone</p>
+            <h2>{{ customer.phone }}</h2>
+        </div>
+        <div class="card">
+            <p>Occupation</p>
+            <h2>{{ customer.occupation }}</h2>
+        </div>
+        <div class="card">
+            <p>Total Deposited</p>
+            <h2>{{ customer.total_deposited }} UGX</h2>
+        </div>
+    </div>
 
-    <!-- Customer details -->
-    <p><strong>NIN:</strong> {{ customer.nin }}</p>
-    <p><strong>Phone:</strong> {{ customer.phone }}</p>
-    <p><strong>Occupation:</strong> {{ customer.occupation }}</p>
-    <p><strong>Address:</strong> {{ customer.address }}</p>
-    <p><strong>Total Deposited:</strong> {{ customer.total_deposited }} UGX</p>
-
-    <hr>
-
-    <!-- All deposits for this customer -->
     <h3>Deposit History</h3>
 
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Date</th>
@@ -47,10 +54,9 @@
                 <td>{{ deposit.quantity_picked|default:"-" }}</td>
                 <td>{{ deposit.picked_date|default:"-" }}</td>
                 <td>
-                    <a href="{% url 'deposit_receipt' deposit.pk %}">Receipt</a>
+                    <a class="action-edit" href="{% url 'deposit_receipt' deposit.pk %}">Receipt</a>
                     {% if deposit.status == 'pending' %}
-                    |
-                    <a href="{% url 'deposit_pickup' deposit.pk %}">Record Pickup</a>
+                    <a class="action-edit" href="{% url 'deposit_pickup' deposit.pk %}">Record Pickup</a>
                     {% endif %}
                 </td>
             </tr>
@@ -62,5 +68,4 @@
         </tbody>
     </table>
 
-</body>
-</html>
+{% endblock %}

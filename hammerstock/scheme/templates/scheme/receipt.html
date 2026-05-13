@@ -1,46 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Receipt {{ receipt.receipt_number }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Nyondo General Hardware LTD</h1>
-    <p>Nansana, Uganda</p>
+{% block title %}Receipt {{ receipt.receipt_number }}{% endblock %}
 
-    <hr>
+{% block content %}
 
-    <h2>DEPOSIT RECEIPT</h2>
-    <p><strong>Receipt No:</strong> {{ receipt.receipt_number }}</p>
-    <p><strong>Date:</strong> {{ receipt.issued_at|date:"M d, Y" }}</p>
+    <div style="max-width: 500px; margin: 0 auto; background: white; 
+                padding: 40px; border-radius: 8px; 
+                border-top: 4px solid #6B0F1A;">
 
-    <hr>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="background-color: #6B0F1A; color: #C9A84C; 
+                        font-size: 24px; font-weight: bold; 
+                        width: 50px; height: 50px; border-radius: 8px;
+                        display: flex; align-items: center; 
+                        justify-content: center; margin: 0 auto 10px;">
+                NH
+            </div>
+            <h2 style="color: #6B0F1A;">Nyondo General Hardware LTD</h2>
+            <p style="color: #888; font-size: 13px;">Nansana, Uganda</p>
+        </div>
 
-    <!-- Customer details -->
-    <h3>Customer Details</h3>
-    <p><strong>Name:</strong> {{ deposit.customer.full_name }}</p>
-    <p><strong>NIN:</strong> {{ deposit.customer.nin }}</p>
-    <p><strong>Phone:</strong> {{ deposit.customer.phone }}</p>
+        <hr>
 
-    <hr>
+        <h2 style="text-align: center; color: #6B0F1A;">DEPOSIT RECEIPT</h2>
+        <p><strong>Receipt No:</strong> {{ receipt.receipt_number }}</p>
+        <p><strong>Date:</strong> {{ receipt.issued_at|date:"M d, Y" }}</p>
 
-    <!-- Deposit details -->
-    <h3>Deposit Details</h3>
-    <p><strong>Product:</strong> {{ deposit.product }}</p>
-    <p><strong>Amount Deposited:</strong> {{ deposit.amount }} UGX</p>
-    <p><strong>Status:</strong> {{ deposit.get_status_display }}</p>
+        <hr>
 
-    <hr>
+        <h3>Customer Details</h3>
+        <p><strong>Name:</strong> {{ deposit.customer.full_name }}</p>
+        <p><strong>NIN:</strong> {{ deposit.customer.nin }}</p>
+        <p><strong>Phone:</strong> {{ deposit.customer.phone }}</p>
 
-    <p><em>This is a temporary receipt. Keep it safe.</em></p>
-    <p><em>Goods will be released based on amount paid on day of pickup.</em></p>
+        <hr>
 
-    <hr>
+        <h3>Deposit Details</h3>
+        <p><strong>Product:</strong> {{ deposit.product }}</p>
+        <p><strong>Amount Deposited:</strong> {{ deposit.amount }} UGX</p>
+        <p><strong>Status:</strong> {{ deposit.get_status_display }}</p>
 
-    <a href="{% url 'scheme_customer_detail' deposit.customer.pk %}">
-        Back to Customer
-    </a>
+        <hr>
 
-</body>
-</html>
+        <p style="color: #888; font-size: 13px; font-style: italic;">
+            This is a temporary receipt. Keep it safe.
+        </p>
+        <p style="color: #888; font-size: 13px; font-style: italic;">
+            Goods will be released based on amount paid on day of pickup.
+        </p>
+
+        <br>
+        <div class="action-bar">
+            <a href="{% url 'scheme_customer_detail' deposit.customer.pk %}">
+                Back to Customer
+            </a>
+        </div>
+
+    </div>
+
+{% endblock %} 
