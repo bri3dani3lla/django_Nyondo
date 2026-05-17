@@ -1,16 +1,31 @@
 {% extends 'base.html' %}
 
-{% block title %}Sales{% endblock %}
+{% block title %}Sales Dashboard{% endblock %}
 
 {% block content %}
 
-    <h1>Sales</h1>
+    <h1>Sales Dashboard</h1>
 
+    <!-- Summary cards -->
+    <div class="cards">
+        <div class="card">
+            <p>Total Sales</p>
+            <h2>{{ total_sales }}</h2>
+        </div>
+        <div class="card">
+            <p>Total Revenue</p>
+            <h2>{{ total_revenue }} UGX</h2>
+        </div>
+    </div>
+
+    <!-- Quick actions -->
     <div class="action-bar">
         <a href="{% url 'sale_add' %}">+ Record Sale</a>
-        <a href="{% url 'customer_list' %}">View Customers</a>
-        <a href="{% url 'customer_add' %}">+ Add Customer</a>
+        <a href="{% url 'sale_list' %}">View All Sales</a>
+        <a href="{% url 'stock_dashboard' %}">Check Stock</a>
     </div>
+
+    <h2>Recent Sales</h2>
 
     <table>
         <thead>
@@ -21,12 +36,11 @@
                 <th>Goods Total</th>
                 <th>Transport</th>
                 <th>Grand Total</th>
-                <th>Served By</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            {% for sale in sales %}
+            {% for sale in recent_sales %}
             <tr>
                 <td>{{ sale.pk }}</td>
                 <td>{{ sale.customer|default:"Walk-in" }}</td>
@@ -34,15 +48,13 @@
                 <td>{{ sale.goods_total }} UGX</td>
                 <td>{{ sale.get_transport_status_display }}</td>
                 <td>{{ sale.grand_total }} UGX</td>
-                <td>{{ sale.served_by }}</td>
                 <td>
                     <a class="action-edit" href="{% url 'sale_receipt' sale.pk %}">View Receipt</a>
-                    <a class="action-delete" href="{% url 'sale_delete' sale.pk %}">Delete</a>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="8">No sales yet.</td>
+                <td colspan="7">No sales yet.</td>
             </tr>
             {% endfor %}
         </tbody>

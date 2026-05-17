@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+
+{% block title %}Receipt — Sale #{{ sale.pk }}{% endblock %}
+
+{% block content %}
+
+<div style="max-width: 600px; margin: 0 auto;">
+
+    <!-- Action buttons — hidden when printing -->
+    <div class="action-bar no-print">
+        <a href="{% url 'sales_dashboard' %}">Back to Dashboard</a>
+        <a href="#" onclick="window.print()"
+           style="background-color: #C9A84C; color: #6B0F1A;
+                  padding: 10px 20px; border-radius: 4px;
+                  font-weight: bold; font-size: 14px;">
+            🖨️ Print Receipt
+        </a>
+    </div>
+
+    <!-- Receipt card -->
+    <div style="background: white; padding: 40px;
+                border-radius: 8px; border-top: 4px solid #6B0F1A;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
+
+        <!-- Company header -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="background-color: #6B0F1A; color: #C9A84C;
+                        font-size: 24px; font-weight: bold;
+                        width: 55px; height: 55px; border-radius: 8px;
+                        display: flex; align-items: center;
+                        justify-content: center; margin: 0 auto 10px;">
+                NH
+            </div>
+            <h2 style="color: #6B0F1A; margin: 0; font-size: 18px;">
+                Nyondo General Hardware LTD
+            </h2>
+            <p style="color: #888; font-size: 12px; margin: 4px 0;">
+                Nansana, Uganda
+            </p>
+        </div>
+
+        <hr style="border-color: #C9A84C; opacity: 0.4;">
+
+        <!-- Receipt title — fix 5: cleaner, more premium -->
+        <div style="text-align: center; margin: 15px 0;">
+            <h2 style="color: #6B0F1A; font-size: 20px;
+                       letter-spacing: 4px; font-weight: bold;
+                       margin: 0 0 8px 0;">
+                SALES RECEIPT
+            </h2>
+            <div style="height: 2px; background: #C9A84C; 
+                        width: 60px; margin: 0 auto;"></div>
+        </div>
+
+        <!-- Receipt info -->
+        <div style="display: flex; justify-content: space-between;
+                    margin: 15px 0; font-size: 13px;">
+            <div>
+                <p style="margin: 4px 0;">
+                    <strong>Receipt No:</strong>
+                    SALE-{{ sale.pk|stringformat:"05d" }}
+                </p>
+                <p style="margin: 4px 0;">
+                    <strong>Date:</strong> {{ sale.sale_date }}
+                </p>
+            </div>
+            <div style="text-align: right;">
+                <!-- fix 2: replace username with readable name -->
+                <p style="margin: 4px 0;">
+                    <strong>Served By:</strong>
+                    {{ sale.served_by.get_full_name|default:sale.served_by.username|title }}
+                </p>
+                <!-- fix 4: cleaner delivery wording -->
+                <p style="margin: 4px 0;">
+                    <strong>Delivery:</strong>
+                    {% if sale.transport_status == 'free' %}
+                        Free Delivery
+                    {% elif sale.transport_status == 'charged' %}
+                        Transport Fee Applied
+                    {% else %}
+                        No Delivery
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!-- Customer -->
+        <div style="background: #f9f3ea; padding: 10px 15px;
+                    border-radius: 6px; margin-bottom: 15px;
+                    font-size: 13px;">
+            <strong>Customer:</strong>
+            {{ sale.customer|default:"Walk-in Customer" }}
+        </div>
+
+        <hr style="border-color: #C9A84C; opacity: 0.4;">
+
+        <!-- Items table — fix 3: more row padding -->
+        <table style="width: 100%; border-collapse: collapse;
+                      font-size: 13px; margin-top: 10px;">
+            <thead>
+                <tr>
+                    <th style="background: #6B0F1A; color: #F2E8D5;
+                               padding: 12px 15px; text-align: left;">
+                        Product
+                    </th>
+                    <th style="background: #6B0F1A; color: #F2E8D5;
+                               padding: 12px 15px; text-align: center;">
+                        Qty
+                    </th>
+                    <th style="background: #6B0F1A; color: #F2E8D5;
+                               padding: 12px 15px; text-align: right;">
+                        Unit Price
+                    </th>
+                    <th style="background: #6B0F1A; color: #F2E8D5;
+                               padding: 12px 15px; text-align: right;">
+                        Total
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td style="padding: 12px 15px;
+                               border-bottom: 1px solid #eee;">
+                        {{ item.product }}
+                    </td>
+                    <td style="padding: 12px 15px;
+                               border-bottom: 1px solid #eee;
+                               text-align: center;">
+                        <!-- fix 1: no decimal overload on quantity -->
+                        {{ item.quantity|floatformat:0 }}
+                    </td>
+                    <td style="padding: 12px 15px;
+                               border-bottom: 1px solid #eee;
+                               text-align: right;">
+                        <!-- fix 1: formatted price -->
+                        UGX {{ item.unit_price|floatformat:0 }}
+                    </td>
+                    <td style="padding: 12px 15px;
+                               border-bottom: 1px solid #eee;
+                               text-align: right;">
+                        UGX {{ item.line_total|floatformat:0 }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <hr style="border-color: #C9A84C; opacity: 0.4;">
+
+        <!-- Totals — fix 1: clean numbers -->
+        <div style="text-align: right; font-size: 13px;">
+            <p style="margin: 6px 0;">
+                <strong>Goods Total:</strong>
+                UGX {{ sale.goods_total|floatformat:0 }}
+            </p>
+            <p style="margin: 6px 0;">
+                <strong>Transport Fee:</strong>
+                UGX {{ sale.transport_fee|floatformat:0 }}
+            </p>
+            <div style="background: #6B0F1A; color: #F2E8D5;
+                        padding: 14px 15px; border-radius: 6px;
+                        margin-top: 12px; font-size: 16px;">
+                <strong>
+                    GRAND TOTAL: UGX {{ sale.grand_total|floatformat:0 }}
+                </strong>
+            </div>
+        </div>
+
+        <hr style="border-color: #C9A84C; opacity: 0.4;">
+
+        <!-- Footer -->
+        <div style="text-align: center; margin-top: 15px;
+                    color: #888; font-size: 11px;">
+            <p>Thank you for shopping at Nyondo General Hardware LTD!</p>
+            <p>Goods once sold are not returnable without a valid receipt.</p>
+            <p style="margin-top: 8px; color: #C9A84C;
+                      font-weight: bold; font-size: 12px;">
+                Keep this receipt safe.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Print styles -->
+<style>
+    @media print {
+        .no-print, .navbar, .footer, .action-bar {
+            display: none !important;
+        }
+        body {
+            background: white !important;
+        }
+    }
+</style>
+
+{% endblock %}

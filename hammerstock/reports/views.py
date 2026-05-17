@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required 
+from accounts.decorators import role_required 
 from stock.models import Product, StockEntry, Supplier
 from sales.models import Sale, SaleItem
 from scheme.models import SchemeCustomer, Deposit 
 
 # Create your views here.
-@login_required
+@role_required('accounts')
 def reports_dashboard(request):
     # ── Stock summary ──
     # total number of products
@@ -40,14 +40,14 @@ def reports_dashboard(request):
     })
 
 
-@login_required
+@role_required('accounts')
 def stock_report(request):
     # All products with their current stock levels
     products = Product.objects.all().order_by('category')
     return render(request, 'reports/stock_report.html', {'products': products})
 
 
-@login_required
+@role_required('accounts')
 def sales_report(request):
     # All sales with totals
     sales         = Sale.objects.all().order_by('-sale_date')
@@ -58,7 +58,7 @@ def sales_report(request):
     })
 
 
-@login_required
+@role_required('accounts')
 def scheme_report(request):
     # All scheme customers with their deposit totals
     customers = SchemeCustomer.objects.all()

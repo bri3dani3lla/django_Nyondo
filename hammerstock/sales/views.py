@@ -1,21 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required 
-from .models import Sale, SaleItem, Customer 
+from accounts.decorators import role_required 
+from .models import Sale, Customer 
 from .forms import SaleForm, SaleItemForm, CustomerForm 
 from datetime import date 
 
 # Create your views here.
 
 # CUSTOMER VIEWS
-
-@login_required
+# Sales attendant can also check stock, 
+# so we give both roles access
+@role_required('attendant', 'manager')
 def customer_list(request):
 # Get all customers from the database
     customers = Customer.objects.all()
     return render(request, 'sales/customer_list.html', {'customers': customers})
 
 
-@login_required
+@role_required('attendant', 'manager')
 def customer_add(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST)
@@ -29,14 +30,14 @@ def customer_add(request):
 
 # SALE VIEWS
 
-@login_required
+@role_required('attendant', 'manager')
 def sale_list(request):
 # Get all sales, newest first
     sales = Sale.objects.all().order_by('-sale_date')
     return render(request, 'sales/sale_list.html', {'sales': sales})
 
 
-@login_required
+@role_required('attendant', 'manager')
 def sale_add(request):
     if request.method == 'POST':
         form     = SaleForm(request.POST)
@@ -81,7 +82,7 @@ def sale_add(request):
         # Save the sale again with transport details
             sale.save()
 
-            return redirect('sale_list')
+            return redirect('sale_receipt', pk=sale.pk) 
     else:
         form     = SaleForm()
         itemform = SaleItemForm()
@@ -93,18 +94,17 @@ def sale_add(request):
     })
 
 
-@login_required
-def sale_detail(request, pk):
-# Get one sale and all its items
+@role_required('attendant', 'manager')
+def sale_receipt(request, pk):
     sale  = get_object_or_404(Sale, pk=pk)
     items = sale.items.all()
-    return render(request, 'sales/sale_detail.html', {
+    return render(request, 'sales/sale_receipt.html', {
         'sale' : sale,
         'items': items,
     })
 
 
-@login_required
+@role_required('attendant', 'manager')
 def sale_delete(request, pk):
     sale = get_object_or_404(Sale, pk=pk)
 
@@ -117,3 +117,19 @@ def sale_delete(request, pk):
         return redirect('sale_list')
 
     return render(request, 'sales/confirm_delete.html', {'object': sale, 'type': 'Sale'})
+
+@role_required('attendant', 'manager')
+def sales_dashboard(request):
+    # recent sales
+    recent_sales  = Sale.objects.all().order_by('-sale_date')[:5]
+    # total sales today
+    total_sales   = Sale.objects.all().count()
+    # total revenue
+    all_sales     = Sale.objects.all()
+    total_revenue = sum(sale.grand_total() for sale in all_sales)
+
+    return render(request, 'sales/dashboard.html', {
+        'recent_sales' : recent_sales,
+        'total_sales'  : total_sales,
+        'total_revenue': total_revenue,
+    })

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required 
+from accounts.decorators import role_required 
 from .models import Product, Supplier, StockEntry 
 from .forms import ProductForm, SupplierForm, StockEntryForm
 
@@ -11,10 +11,9 @@ from .forms import ProductForm, SupplierForm, StockEntryForm
 # request.method =='POST' - checks if the user submitted a form
 # form.save(commit=False) - creates object but holds it in memory without saving to DB yet, so we can add extra fields like:registered_by
 
-# @login_required means if you aren't logged in, django will redirect you to the login page automatically
 
 # Create your views here.
-@login_required 
+@role_required('manager', 'attendant') 
 def stock_dashboard(request):
     # Get all pdts and stock entries from the DB
     products = Product.objects.all()
@@ -27,13 +26,13 @@ def stock_dashboard(request):
     }) 
 
 # PDT VIEWS
-@login_required
+@role_required('manager', 'attendant')
 def product_list(request):
     # We fetch all pdts from the DB
     products = Product.objects.all() 
     return render(request, 'stock/product_list.html', {'products': products})
 
-@login_required
+@role_required('manager')
 def product_add(request):
 # If the form was submitted (POST), process it
     if request.method == 'POST':
@@ -48,7 +47,7 @@ def product_add(request):
 
     return render(request, 'stock/product_form.html', {'form': form, 'title': 'Add Product'})
 
-@login_required
+@role_required('manager')
 def product_edit(request, pk):
 # Get the product we want to edit, or show 404 if it doesn't exist
     product = get_object_or_404(Product, pk=pk)
@@ -67,12 +66,12 @@ def product_edit(request, pk):
 
 
 # SUPPLIER VIEWS
-@login_required
+@role_required('manager')
 def supplier_list(request):
     suppliers = Supplier.objects.all()
     return render(request, 'stock/supplier_list.html', {'suppliers': suppliers})
 
-@login_required
+@role_required('manager')
 def supplier_add(request):
     if request.method == 'POST':
         form = SupplierForm(request.POST)
@@ -84,7 +83,7 @@ def supplier_add(request):
 
     return render(request, 'stock/supplier_form.html', {'form': form, 'title': 'Add Supplier'})
 
-@login_required
+@role_required('manager')
 def supplier_edit(request, pk):
     supplier = get_object_or_404(Supplier, pk=pk)
 
@@ -101,13 +100,13 @@ def supplier_edit(request, pk):
 
 
 # STOCK ENTRY VIEWS
-@login_required
+@role_required('manager', 'attendant')
 def stock_entry_list(request):
 # Get all stock entries, newest first
     entries = StockEntry.objects.all().order_by('-date_received')
     return render(request, 'stock/stock_entry_list.html', {'entries': entries})
 
-@login_required
+@role_required('manager')
 def stock_entry_add(request):
     if request.method == 'POST':
         form = StockEntryForm(request.POST)
@@ -131,7 +130,7 @@ def stock_entry_add(request):
 
 # DELETE VIEWS
 
-@login_required
+@role_required('manager')
 def product_delete(request, pk):
 # Get the product we want to delete or show 404 if it doesn't exist
     product = get_object_or_404(Product, pk=pk)
@@ -146,7 +145,7 @@ def product_delete(request, pk):
     return render(request, 'stock/confirm_delete.html', {'object': product, 'type': 'Product'})
 
 
-@login_required
+@role_required('manager')
 def supplier_delete(request, pk):
     supplier = get_object_or_404(Supplier, pk=pk)
 
@@ -157,7 +156,7 @@ def supplier_delete(request, pk):
     return render(request, 'stock/confirm_delete.html', {'object': supplier, 'type': 'Supplier'})
 
 
-@login_required
+@role_required('manager')
 def stock_entry_delete(request, pk):
     entry = get_object_or_404(StockEntry, pk=pk)
 
@@ -169,4 +168,3 @@ def stock_entry_delete(request, pk):
         return redirect('stock_entry_list')
 
     return render(request, 'stock/confirm_delete.html', {'object': entry, 'type': 'Stock Entry'}) 
-

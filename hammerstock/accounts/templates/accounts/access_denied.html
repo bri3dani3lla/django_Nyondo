@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Access Denied{% endblock %}
+
+{% block content %}
+
+<div style="text-align: center; padding: 60px 20px;">
+
+        <h1 style="color: red; border: none;">⛔ Access Denied</h1>
+
+        <p style="margin: 20px 0; color: #888;">
+            You do not have permission to view this page.
+        </p>
+
+        <p style="color: #888;">
+            Please contact your administrator if you think this is a mistake.
+        </p>
+
+        <br>
+
+        <a href="{% url 'logout' %}" 
+           style="background-color: #6B0F1A; color: #F2E8D5;
+                  padding: 12px 30px; border-radius: 6px;">
+            Logout
+        </a>
+
+    </div>
+
+{% endblock %}

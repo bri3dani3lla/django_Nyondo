@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404 
-from django.contrib.auth.decorators import login_required
+from accounts.decorators import role_required
 from datetime import date
 from .models import SchemeCustomer, Deposit, DepositReceipt
 from .forms import SchemeCustomerForm, DepositForm, PickupForm
@@ -8,14 +8,14 @@ from .forms import SchemeCustomerForm, DepositForm, PickupForm
 
 # SCHEME CUSTOMER VIEWS
 
-@login_required
+@role_required('accounts')
 def customer_list(request):
 # Get all registered scheme customers
     customers = SchemeCustomer.objects.all().order_by('-registered_at')
     return render(request, 'scheme/customer_list.html', {'customers': customers})
 
 
-@login_required
+@role_required('accounts')
 def customer_add(request):
     if request.method == 'POST':
         form = SchemeCustomerForm(request.POST)
@@ -34,7 +34,7 @@ def customer_add(request):
     })
 
 
-@login_required
+@role_required('accounts')
 def customer_detail(request, pk):
 # Get one scheme customer and all their deposits
     customer = get_object_or_404(SchemeCustomer, pk=pk)
@@ -47,7 +47,7 @@ def customer_detail(request, pk):
 
 # DEPOSIT VIEWS
 
-@login_required
+@role_required('accounts')
 def deposit_add(request):
     if request.method == 'POST':
         form = DepositForm(request.POST)
@@ -78,7 +78,7 @@ def deposit_add(request):
     })
 
 
-@login_required
+@role_required('accounts')
 def deposit_receipt(request, pk):
     # Get the deposit and its receipt
     deposit = get_object_or_404(Deposit, pk=pk)
@@ -91,7 +91,7 @@ def deposit_receipt(request, pk):
 
 # PICKUP VIEW
 
-@login_required
+@role_required('accounts')
 def deposit_pickup(request, pk):
     # Get the deposit the customer wants to pick goods for
     deposit = get_object_or_404(Deposit, pk=pk)
@@ -114,7 +114,7 @@ def deposit_pickup(request, pk):
         'title'  : 'Record Goods Pickup',
     })
 
-@login_required
+@role_required('accounts')
 def customer_edit(request, pk):
     customer = get_object_or_404(SchemeCustomer, pk=pk)
     if request.method == 'POST':

@@ -1,324 +1,374 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Nyondo Stock{% endblock %}</title>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #F2E8D5;
-            color: #6B0F1A;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        /* background-color: #f2e8d5; */
+        background: linear-gradient(to bottom, #f4e7d3, #efe0c7);
+        color: #6b0f1a;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
 
-        /*  Navbar */
-        .navbar {
-            background-color: #6B0F1A;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+      /* Navbar */
+      .navbar {
+        background: linear-gradient(to right, #6b0f1a, #800020);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        border-bottom: 2px solid #c9a84c;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-        /*  Logo  */
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
+      /*  Logo  */
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
 
-        .logo-icon {
-            width: 38px;
-            height: 38px;
-            background-color: #C9A84C;
-            color: #6B0F1A;
-            font-size: 18px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
-        }
+      .logo-icon {
+        width: 38px;
+        height: 38px;
+        background-color: #c9a84c;
+        color: #6b0f1a;
+        font-size: 18px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+      }
 
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-        }
+      .logo-text {
+        display: flex;
+        flex-direction: column;
+      }
 
-        .logo-name {
-            color: #F2E8D5;
-            font-size: 16px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
+      .logo-name {
+        color: #f2e8d5;
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
 
-        .logo-tagline {
-            color: #C9A84C;
-            font-size: 10px;
-            letter-spacing: 1px;
-        }
+      .logo-tagline {
+        color: #c9a84c;
+        font-size: 10px;
+        letter-spacing: 1px;
+      }
 
-        /*  Nav links  */
-        .nav-links a {
-            color: #F2E8D5;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 14px;
-            padding: 6px 10px;
-            border-radius: 4px;
-        }
+      /*  Nav links  */
+      .nav-links a {
+        color: #f2e8d5;
+        text-decoration: none;
+        margin-left: 20px;
+        font-size: 14px;
+        padding: 6px 10px;
+        border-radius: 4px;
+      }
 
-        .nav-links a:hover {
-            background-color: #C9A84C;
-            color: #6B0F1A;
-        }
+      .nav-links a:hover {
+        background-color: #c9a84c;
+        color: #6b0f1a;
+      }
 
-        .nav-links a.active {
-            background-color: #C9A84C;
-            color: #6B0F1A;
-        }
+      .nav-links a.active {
+        background-color: #c9a84c;
+        color: #6b0f1a;
+      }
 
-        /*  Main container  */
-        .container {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
+      /*  Main container  */
+      .container {
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 0 20px;
+        flex: 1;
+        width: 100%;
+      }
 
-        /*  Page heading  */
-        h1 {
-            color: #6B0F1A;
-            margin-bottom: 20px;
-            border-left: 5px solid #C9A84C;
-            padding-left: 10px;
-        }
+      /*  Page heading  */
+      h1 {
+        color: #6b0f1a;
+        margin-bottom: 20px;
+        border-left: 5px solid #c9a84c;
+        padding-left: 10px;
+      }
 
-        h2, h3 {
-            color: #6B0F1A;
-            margin: 20px 0 10px 0;
-        }
+      h2,
+      h3 {
+        color: #6b0f1a;
+        margin: 20px 0 10px 0;
+      }
 
-        /*  Tables  */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #fff;
-            margin-top: 10px;
-            border-radius: 6px;
-            overflow: hidden;
-        }
+      /*  Tables  */
+      table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    margin-top: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
 
-        table th {
-            background-color: #6B0F1A;
-            color: #F2E8D5;
-            padding: 12px 15px;
-            text-align: left;
-            font-size: 13px;
-        }
+      table th {
+        background-color: #6b0f1a;
+        color: #f2e8d5;
+        padding: 12px 15px;
+        text-align: left;
+        font-size: 13px;
+      }
 
-        table td {
-            padding: 10px 15px;
-            border-bottom: 1px solid #F2E8D5;
-            font-size: 14px;
-            color: #3a3a3a;
-        }
+      table td {
+        padding: 10px 15px;
+        border-bottom: 1px solid #f2e8d5;
+        font-size: 14px;
+        color: #3a3a3a;
+      }
 
-        table tr:hover {
-            background-color: #fdf6ec;
-        }
+      table tr:hover {
+        background-color: #fdf6ec;
+      }
 
-        /*  Links  */
-        a {
-            color: #6B0F1A;
-            text-decoration: none;
-        }
+      /*  Links  */
+      a {
+        color: #6b0f1a;
+        text-decoration: none;
+      }
 
-        a:hover {
-            color: #C9A84C;
-        }
+      a:hover {
+        color: #c9a84c;
+      }
 
-        /*  Buttons  */
-        button, .btn {
-            background-color: #6B0F1A;
-            color: #F2E8D5;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            border-radius: 4px;
-        }
+      /*  Buttons  */
+      button,
+      .btn {
+        background-color: #6b0f1a;
+        color: #f2e8d5;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 4px;
+        transition: 0.3s ease;
+      }
 
-        button:hover, .btn:hover {
-            background-color: #C9A84C;
-            color: #6B0F1A;
-        }
+      button:hover,
+      .btn:hover {
+        background-color: #c9a84c;
+        color: #6b0f1a;
+        transform: translateY(-2px);
+      }
 
-        /*  Action links  */
-        .action-edit {
-            color: #6B0F1A;
-            font-weight: bold;
-            margin-right: 8px;
-        }
+      /*  Action links  */
+      .action-edit {
+        color: #6b0f1a;
+        font-weight: bold;
+        margin-right: 8px;
+      }
 
-        .action-delete {
-            color: #c0392b;
-            font-weight: bold;
-        }
+      .action-delete {
+        color: #c0392b;
+        font-weight: bold;
+      }
 
-        /*  Forms  */
-        label {
-            font-size: 14px;
-            font-weight: bold;
-            color: #6B0F1A;
-            display: block;
-            margin-bottom: 4px;
-        }
+      /*  Forms  */
+      label {
+        font-size: 14px;
+        font-weight: bold;
+        color: #6b0f1a;
+        display: block;
+        margin-bottom: 4px;
+      }
 
-        input, select, textarea {
-            width: 100%;
-            padding: 9px 12px;
-            margin-bottom: 15px;
-            border: 1px solid #C9A84C;
-            border-radius: 4px;
-            font-size: 14px;
-            background-color: #fff;
-            color: #3a3a3a;
-        }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 9px 12px;
+        margin-bottom: 15px;
+        border: 1px solid #c9a84c;
+        border-radius: 4px;
+        font-size: 14px;
+        background-color: #fff;
+        color: #3a3a3a;
+      }
 
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #6B0F1A;
-        }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #6b0f1a;
+      }
 
-        /*  Error messages  */
-        .error {
-            color: #c0392b;
-            background-color: #ffe6e6;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            border-left: 4px solid #c0392b;
-        }
+      /*  Error messages  */
+      .error {
+        color: #c0392b;
+        background-color: #ffe6e6;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        border-left: 4px solid #c0392b;
+      }
 
-        /*  Top action bar  */
-        .action-bar {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
+      /*  Top action bar  */
+      .action-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
 
-        .action-bar a {
-            background-color: #6B0F1A;
-            color: #F2E8D5;
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 13px;
-        }
+      .action-bar a {
+        background-color: #6b0f1a;
+        color: #f2e8d5;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 13px;
+        transition: 0.3s ease;
+    display: inline-block;
+      }
 
-        .action-bar a:hover {
-            background-color: #C9A84C;
-            color: #6B0F1A;
-        }
+      .action-bar a:hover {
+        background-color: #c9a84c;
+        color: #6b0f1a;
+        transform: translateY(-2px);
+      }
 
-        /*  Summary cards  */
-        .cards {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
+      /*  Summary cards  */
+      .cards {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+      }
 
-        .card {
-            background-color: #fff;
-            border-left: 5px solid #C9A84C;
-            padding: 16px 20px;
-            border-radius: 6px;
-            flex: 1;
-            min-width: 180px;
-        }
+      .card {
+        background-color: #fff;
+        border-left: 5px solid #c9a84c;
+        padding: 16px 20px;
+        border-radius: 6px;
+        flex: 1;
+        min-width: 180px;
+      }
 
-        .card p {
-            font-size: 12px;
-            color: #888;
-            margin-bottom: 6px;
-        }
+      .card p {
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 6px;
+      }
 
-        .card h2 {
-            font-size: 24px;
-            color: #6B0F1A;
-            margin: 0;
-        }
+      .card h2 {
+        font-size: 24px;
+        color: #6b0f1a;
+        margin: 0;
+      }
 
-        /*  HR  */
-        hr {
-            border: none;
-            border-top: 1px solid #C9A84C;
-            margin: 20px 0;
-            opacity: 0.4;
-        }
+      /*  HR  */
+      hr {
+        border: none;
+        border-top: 1px solid #c9a84c;
+        margin: 20px 0;
+        opacity: 0.4;
+      }
 
-        /*  Footer  */
-        .footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 100px;
-            background-color: #6B0F1A;
-            color: #F2E8D5;
-            font-size: 13px;
-        }
+      /*  Footer  */
+      .footer {
+        text-align: center;
+        padding: 20px;
+        margin-top: 100px;
+        background-color: #6b0f1a;
+        color: #f2e8d5;
+        font-size: 13px;
+      }
 
-        .footer span {
-            color: #C9A84C;
-        }
+      .footer span {
+        color: #c9a84c;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- Navbar — only shows when user is logged in -->
     {% if request.user.is_authenticated %}
     <nav class="navbar">
-
-        <!-- Logo -->
-        <a href="{% url 'stock_dashboard' %}" class="logo">
-            <div class="logo-icon">NH</div>
-            <div class="logo-text">
-                <span class="logo-name">NYONDO HARDWARE</span>
-                <span class="logo-tagline">STOCK MANAGEMENT SYSTEM</span>
-            </div>
-        </a>
-
-        <!-- Nav links -->
-        <div class="nav-links">
-            <a href="{% url 'stock_dashboard' %}">Stock</a>
-            <a href="{% url 'sale_list' %}">Sales</a>
-            <a href="{% url 'scheme_customer_list' %}">Scheme</a>
-            <a href="{% url 'reports_dashboard' %}">Reports</a>
-            <a href="{% url 'logout' %}">Logout</a>
+      <!-- Logo -->
+      <a
+        href="
+{% if request.user.is_superuser %}
+    {% url 'stock_dashboard' %}
+{% elif request.user.profile.role == 'manager' %}
+    {% url 'stock_dashboard' %}
+{% elif request.user.profile.role == 'attendant' %}
+    {% url 'sales_dashboard' %}
+{% elif request.user.profile.role == 'accounts' %}
+    {% url 'reports_dashboard' %}
+{% endif %}
+"
+        class="logo"
+      >
+        <div class="logo-icon">NH</div>
+        <div class="logo-text">
+          <span class="logo-name">NYONDO HARDWARE</span>
+          <span class="logo-tagline">STOCK MANAGEMENT SYSTEM</span>
         </div>
+      </a>
 
+      <!-- Nav links -->
+      <!-- <div class="nav-links">
+        <a href="{% url 'stock_dashboard' %}">Stock</a>
+        <a href="{% url 'sale_list' %}">Sales</a>
+        <a href="{% url 'scheme_customer_list' %}">Scheme</a>
+        <a href="{% url 'reports_dashboard' %}">Reports</a>
+        <a href="{% url 'logout' %}">Logout</a>
+      </div> -->
+
+      <div class="nav-links">
+        {% if request.user.is_superuser %}
+        <a href="{% url 'stock_dashboard' %}">Stock</a>
+        <a href="{% url 'sale_list' %}">Sales</a>
+        <a href="{% url 'scheme_customer_list' %}">Scheme</a>
+        <a href="{% url 'reports_dashboard' %}">Reports</a>
+
+        {% elif request.user.profile.role == 'manager' %}
+        <a href="{% url 'stock_dashboard' %}">Stock</a>
+
+        {% elif request.user.profile.role == 'attendant' %}
+        <a href="{% url 'sale_list' %}">Sales</a>
+        <a href="{% url 'stock_dashboard' %}">Check Stock</a>
+
+        {% elif request.user.profile.role == 'accounts' %}
+        <a href="{% url 'scheme_customer_list' %}">Scheme</a>
+        <a href="{% url 'reports_dashboard' %}">Reports</a>
+        {% endif %}
+
+        <a href="{% url 'logout' %}">Logout</a>
+      </div>
     </nav>
     {% endif %}
 
     <!-- Main content -->
-    <div class="container">
-        {% block content %}
-        {% endblock %}
-    </div>
+    <div class="container">{% block content %} {% endblock %}</div>
 
     <!-- Footer -->
     <footer class="footer">
-        <p>Nyondo General Hardware LTD &copy; 2026 —
-        <span>Nansana, Uganda</span></p>
+      <p>
+        Nyondo General Hardware LTD &copy; 2026 — <span>Nansana, Uganda</span>
+      </p>
     </footer>
-
-</body>
-</html> 
+  </body>
+</html>
