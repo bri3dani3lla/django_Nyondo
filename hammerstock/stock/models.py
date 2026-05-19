@@ -7,6 +7,8 @@ class Supplier(models.Model):
     phone = models.CharField(max_length=20)
     address = models.TextField(blank=True)
     credit_balance = models.DecimalField(max_digits=12, decimal_places=2, default=0) 
+    product_delivered = models.CharField(max_length=200, blank=True)
+    due_date         = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -51,6 +53,7 @@ class StockEntry(models.Model):
     PAYMENT_CHOICES = [
         ('cash',   'Cash'),
         ('credit', 'Credit (pay later)'),
+        ('momo', 'Mobile Money'),
     ]
 
     product            = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='stock_entries')
@@ -64,6 +67,7 @@ class StockEntry(models.Model):
     notes              = models.TextField(blank=True)
     registered_by      = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True)
     created_at         = models.DateTimeField(auto_now_add=True)
+    storage_location = models.CharField(max_length=200, blank=True)
 
 # Calculates total cost of stock
     def total_cost(self):

@@ -7,11 +7,18 @@ class CustomerForm(forms.ModelForm):
         fields = ['name', 'phone', 'address']
         
 class SaleForm(forms.ModelForm):
+      # render payment_status as radio buttons not a dropdown
+    payment_status = forms.ChoiceField(
+        choices=Sale.PAYMENT_STATUS_CHOICES,
+        widget=forms.RadioSelect,
+    )
+
     class Meta:
         model  = Sale
         fields = [
             'customer',
             'within_10km',
+            'payment_status',
         ]
 # We leave out transport_fee and transport_status
 # because those will be calculated automatically

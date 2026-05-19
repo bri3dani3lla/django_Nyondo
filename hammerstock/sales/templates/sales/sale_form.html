@@ -4,23 +4,181 @@
 
 {% block content %}
 
-    <h1>{{ title }}</h1>
+<h1>{{ title }}</h1>
 
-    <div class="action-bar">
-        <a href="{% url 'sale_list' %}">Back to Sales</a>
+<div class="action-bar">
+    <a href="{% url 'sales_dashboard' %}">Back to Dashboard</a>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    {% if form.non_field_errors or itemform.non_field_errors %}
+    <div class="error">Please correct the errors below before saving.</div>
+    {% endif %}
+
+    <!-- Max width wrapper -->
+    <div style="max-width: 750px; margin: 0 auto;">
+
+        <!-- Master card -->
+        <div style="background: white; border-radius: 8px;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+                    overflow: hidden;">
+
+            <!-- Card header bar -->
+            <div style="background: #6B0F1A; padding: 10px 25px;
+                        display: flex; align-items: center;">
+                         <i class="bi bi-receipt" style="color: #C9A84C; font-size: 16px;"></i>
+                <span style="color: #C9A84C; font-weight: 600;
+                             font-size: 14px; letter-spacing: 2px;">
+                    RECORD SALE
+                </span>
+            </div>
+
+            <!-- Form content -->
+            <div style="padding: 25px;">
+
+                <!-- Section 1: Customer -->
+                <p style="color: #6B0F1A; font-weight: bold;
+                          font-size: 13px; letter-spacing: 1px;
+                          margin-top: 0; margin-bottom: 8px;">
+                           <i class="bi bi-person" style="color: #C9A84C; font-size: 15px;"></i>
+                    CUSTOMER
+                </p>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Customer</label>
+                        {{ form.customer }}
+                        {% if form.customer.errors %}
+                            <p class="field-error">{{ form.customer.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label>Delivery</label>
+                        <div style="display: flex; align-items: center;
+                                    gap: 10px; padding: 9px 12px;
+                                    border: 1px solid #C9A84C;
+                                    border-radius: 4px; background: white;">
+                            {{ form.within_10km }}
+                            <span style="font-size: 14px; color: #3a3a3a;">
+                                Within 10km of Nansana
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <hr style="border: none; border-top: 1px solid #f2e8d5; margin: 15px 0;">
+
+                <!-- Section 2: Product Sale -->
+                <p style="color: #C9A84C; font-weight: bold;
+                          font-size: 13px; letter-spacing: 1px;
+                          margin-top: 0; margin-bottom: 8px;">
+                          <i class="bi bi-cart" style="color: #6B0F1A; font-size: 15px;"></i>
+                    PRODUCT SALE
+                </p>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Product</label>
+                        {{ itemform.product }}
+                        {% if itemform.product.errors %}
+                            <p class="field-error">{{ itemform.product.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label>Unit Price (UGX)</label>
+                        {{ itemform.unit_price }}
+                        {% if itemform.unit_price.errors %}
+                            <p class="field-error">{{ itemform.unit_price.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        {{ itemform.quantity }}
+                        {% if itemform.quantity.errors %}
+                            <p class="field-error">{{ itemform.quantity.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <!-- Auto calculated transport -->
+                    <div class="form-group">
+                        <label>Transport Fee</label>
+                        <div style="padding: 9px 12px; border: 1px solid #f2e8d5;
+                                    border-radius: 4px; background: #f9f3ea;
+                                    font-size: 14px; color: #888;">
+                            Auto-calculated on save
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <hr style="border: none; border-top: 1px solid #f2e8d5; margin: 15px 0;">
+
+                <!-- Section 3: Payment -->
+                <p style="color: #2D6A4F; font-weight: bold;
+                          font-size: 13px; letter-spacing: 1px;
+                          margin-top: 0; margin-bottom: 8px;">
+                           <i class="bi bi-credit-card" style="color: #2D6A4F; font-size: 15px;"></i>
+                    PAYMENT STATUS
+                </p>
+
+                <!-- Radio buttons styled as pills -->
+<div style="display: flex; gap: 12px; flex-wrap: wrap;">
+    {% for radio in form.payment_status %}
+    <label style="display: flex; align-items: center; gap: 8px;
+                  padding: 10px 25px; border-radius: 25px;
+                  border: 2px solid #C9A84C; cursor: pointer;
+                  font-size: 14px; font-weight: 500;
+                  color: #6B0F1A; background: white;
+                  min-width: 130px; justify-content: center;">
+        {{ radio.tag }}
+        {{ radio.choice_label }}
+    </label>
+    {% endfor %}
+</div>
+                {% if form.payment_status.errors %}
+                    <p class="field-error">{{ form.payment_status.errors }}</p>
+                {% endif %}
+
+                <!-- Divider -->
+                <hr style="border: none; border-top: 1px solid #f2e8d5; margin: 15px 0;">
+
+                <!-- Total highlight box -->
+                <div style="background: #6B0F1A; color: #F2E8D5;
+                            padding: 15px 20px; border-radius: 6px;
+                            display: flex; justify-content: space-between;
+                            align-items: center; margin-bottom: 15px;">
+                    <span style="font-size: 14px; letter-spacing: 1px;">
+                        GRAND TOTAL
+                    </span>
+                    <span style="font-size: 18px; font-weight: bold;
+                                 color: #C9A84C;">
+                        Auto-calculated on save
+                    </span>
+                </div>
+
+                <!-- Submit button — green as per feedback -->
+                <button type="submit"
+                        style="width: 100%; padding: 12px;
+                               font-size: 15px; letter-spacing: 1px;
+                               background-color: #2D6A4F;
+                               color: white; border: none;
+                               border-radius: 4px; cursor: pointer;
+                               transition: 0.3s ease;">
+                                <i class="bi bi-check-circle" style="margin-right: 6px;"></i>
+                    SAVE SALE
+                </button>
+
+            </div>
+            <!-- end form content -->
+
+        </div>
+        <!-- end master card -->
+
     </div>
+    <!-- end max width wrapper -->
 
-    <form method="post">
-        {% csrf_token %}
+</form>
 
-        <h3>Sale Details</h3>
-        {{ form.as_p }}
-
-        <h3>Product Being Sold</h3>
-        {{ itemform.as_p }}
-
-        <br>
-        <button type="submit">Save Sale</button>
-    </form>
-
-{% endblock %} 
+{% endblock %}

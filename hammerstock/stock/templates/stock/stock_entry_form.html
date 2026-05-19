@@ -4,16 +4,185 @@
 
 {% block content %}
 
-    <h1>{{ title }}</h1>
+<h1>{{ title }}</h1>
 
-    <div class="action-bar">
-        <a href="{% url 'stock_entry_list' %}">Back to Stock Entries</a>
+<div class="action-bar">
+    <a href="{% url 'stock_entry_list' %}">Back to Stock Entries</a>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+    <div class="error">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <!-- Max width wrapper -->
+    <div style="max-width: 750px; margin: 0 auto;">
+
+        <!-- Master card -->
+        <div style="background: white; border-radius: 8px;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+                    overflow: hidden;">
+
+            <!-- Card header bar -->
+<div style="background: #6B0F1A; padding: 10px 25px;
+            display: flex; align-items: center;">
+    <span style="color: #C9A84C; font-weight: 600;
+                 font-size: 14px; letter-spacing: 2px;">
+        ADD STOCK
+    </span>
+</div>
+
+            <!-- Form content -->
+            <div style="padding: 25px;">
+
+                <!-- Section 1: Product Information -->
+
+                <p style="color: #6B0F1A; font-weight: bold;
+                          font-size: 13px; letter-spacing: 1px;
+                          margin-top: 0;
+                          margin-bottom: 8px;">
+                          <i class="bi bi-box-seam" style="color: #C9A84C; font-size: 15px;"></i>
+                     PRODUCT INFORMATION
+                </p>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Product</label>
+                        {{ form.product }}
+                        {% if form.product.errors %}
+                            <p class="field-error">{{ form.product.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label>Supplier</label>
+                        {{ form.supplier }}
+                        {% if form.supplier.errors %}
+                            <p class="field-error">{{ form.supplier.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        {{ form.quantity }}
+                        {% if form.quantity.errors %}
+                            <p class="field-error">{{ form.quantity.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Type</label>
+                        {{ form.payment_type }}
+                        {% if form.payment_type.errors %}
+                            <p class="field-error">{{ form.payment_type.errors }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <hr style="border: none; border-top: 1px solid #f2e8d5; margin: 20px 0;">
+
+                <!-- Section 2: Pricing -->
+
+                <p style="color: #C9A84C; font-weight: bold;
+                          font-size: 13px; letter-spacing: 1px;
+                          margin: 0;
+                          margin-bottom: 8px;">
+                           <i class="bi bi-cash-stack" style="color: #6B0F1A; font-size: 15px;"></i>
+                     PRICING
+                </p>
+
+                <div class="form-grid-3">
+                    <div class="form-group">
+                        <label>Unit Cost (UGX)</label>
+                        {{ form.unit_cost }}
+                        {% if form.unit_cost.errors %}
+                            <p class="field-error">{{ form.unit_cost.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label>Selling Price (UGX)</label>
+                        {{ form.unit_selling_price }}
+                        {% if form.unit_selling_price.errors %}
+                            <p class="field-error">{{ form.unit_selling_price.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label>Amount Paid (UGX)</label>
+                        {{ form.amount_paid }}
+                        {% if form.amount_paid.errors %}
+                            <p class="field-error">{{ form.amount_paid.errors }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <hr style="border: none; border-top: 1px solid #f2e8d5; margin: 20px 0;">
+
+                <!-- Section 3: Delivery Information -->
+
+                <p style="color: #2D6A4F; font-weight: bold;
+                          font-size: 13px; letter-spacing: 1px;
+                          margin: 0;
+                          margin-bottom: 8px;">
+                           <i class="bi bi-truck" style="color: #2D6A4F; font-size: 15px;"></i>
+                     DELIVERY INFORMATION
+                </p>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Date Received</label>
+                        {{ form.date_received }}
+                        {% if form.date_received.errors %}
+                            <p class="field-error">{{ form.date_received.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label>Storage Location</label>
+                        {{ form.storage_location }}
+                        {% if form.storage_location.errors %}
+                            <p class="field-error">{{ form.storage_location.errors }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <hr style="border: none; border-top: 1px solid #f2e8d5; margin: 20px 0;">
+
+                <!-- Section 4: Notes -->
+
+                <p style="color: #888; font-weight: bold;
+                          font-size: 13px; letter-spacing: 1px;
+                          margin: 0;
+                          margin-bottom: 8px;">
+                              <i class="bi bi-pencil-square" style="color: #888; font-size: 15px;"></i>
+                     ADDITIONAL NOTES
+                </p>
+
+                <div class="form-group">
+                    <label>Notes / Description</label>
+                    {{ form.notes }}
+                    {% if form.notes.errors %}
+                        <p class="field-error">{{ form.notes.errors }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" style="width: 100%; padding: 12px;
+                                              font-size: 15px; margin-top: 15px;
+                                              letter-spacing: 1px;">
+                                              <i class="bi bi-floppy-fill me-2" style="margin-right: 6px;"></i>
+                     Save Stock Entry
+                </button>
+
+            </div>
+            <!-- end form content -->
+
+        </div>
+        <!-- end master card -->
+
     </div>
+    <!-- end max-width wrapper -->
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save Entry</button>
-    </form>
+</form>
 
 {% endblock %}

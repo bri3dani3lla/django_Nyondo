@@ -200,8 +200,8 @@
       select,
       textarea {
         width: 100%;
-        padding: 9px 12px;
-        margin-bottom: 15px;
+        padding: 7px 10px;
+        margin-bottom: 8px;
         border: 1px solid #c9a84c;
         border-radius: 4px;
         font-size: 14px;
@@ -300,8 +300,54 @@
       .footer span {
         color: #c9a84c;
       }
+
+      /* ── Form cards ── */
+.form-card {
+    background: white;
+    padding: 18px 20px;        /* reduced from 25px */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    margin-bottom: 12px;       /* reduced from 20px */
+}
+
+.form-section-title {
+    margin-top: 0;
+    margin-bottom: 10px;       /* reduced from 15px */
+    padding-bottom: 8px;       /* reduced from 10px */
+    border-bottom: 1px solid #f2e8d5;
+    color: #6B0F1A;
+    font-size: 14px;           /* slightly smaller */
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;                 /* reduced from 15px */
+}
+
+.form-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;                 /* reduced from 15px */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;        /* reduced spacing */
+}
+
+.field-error {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
     </style>
-  </head>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  
+</head>
   <body>
     <!-- Navbar — only shows when user is logged in -->
     {% if request.user.is_authenticated %}

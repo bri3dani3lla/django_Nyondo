@@ -18,11 +18,18 @@ class Sale(models.Model):
         ('charged', 'Charged 30,000 UGX'),
     ]
 
+    PAYMENT_STATUS_CHOICES = [
+        ('paid',    'Paid'),
+        ('pending', 'Pending'),
+        ('credit',  'Credit Scheme'),
+    ]
+
     customer         = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True, related_name='sales')
-    sale_date        = models.DateField()
+    sale_date        = models.DateField(auto_now_add=True)
     within_10km      = models.BooleanField(default=False)
     transport_fee    = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     transport_status = models.CharField(max_length=10, choices=TRANSPORT_CHOICES, default='none')
+    payment_status   = models.CharField(max_length=10, choices=PAYMENT_STATUS_CHOICES, default='paid')
     served_by        = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, related_name='sales')
     created_at       = models.DateTimeField(auto_now_add=True)
 

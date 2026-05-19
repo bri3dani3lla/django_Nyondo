@@ -5,7 +5,9 @@ from .models import Product, Supplier, StockEntry
 class SupplierForm(forms.ModelForm):
     class Meta:
         model  = Supplier
-        fields = ['name', 'phone', 'address']
+        fields = ['name', 'phone',
+                   'address', 'credit_balance',
+                   'product_delivered', 'due_date',]
 
     def clean_phone(self):
         """
@@ -65,6 +67,7 @@ class StockEntryForm(forms.ModelForm):
             'amount_paid',
             'date_received',
             'notes',
+            'storage_location',
         ]
 
     def clean_quantity(self):

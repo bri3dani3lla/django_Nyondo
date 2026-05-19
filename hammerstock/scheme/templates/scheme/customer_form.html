@@ -4,16 +4,146 @@
 
 {% block content %}
 
-    <h1>{{ title }}</h1>
+<h1>{{ title }}</h1>
 
-    <div class="action-bar">
-        <a href="{% url 'scheme_customer_list' %}">Back to Customers</a>
+<div class="action-bar">
+    <a href="{% url 'scheme_customer_list' %}">Back to Customers</a>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    {% if form.errors %}
+    <div class="error">Please correct the errors below before saving.</div>
+    {% endif %}
+
+    <!-- Max width wrapper -->
+    <div style="max-width: 750px; margin: 0 auto;">
+
+        <!-- Master card -->
+        <div style="background: white; border-radius: 8px;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+                    overflow: hidden;">
+
+            <!-- Card header -->
+            <div style="background: #6B0F1A; padding: 10px 25px;
+                        display: flex; align-items: center; gap: 10px;">
+                        <i class="bi bi-clipboard" style="color: #C9A84C; font-size: 16px;"></i>
+                <span style="color: #C9A84C; font-weight: 600;
+                             font-size: 14px; letter-spacing: 2px;">
+                     SCHEME REGISTRATION
+                </span>
+            </div>
+
+            <!-- Form content -->
+            <div style="padding: 25px;">
+
+                <!-- Section 1: Personal Information -->
+                <p style="color: #6B0F1A; font-weight: bold;
+                          font-size: 13px; letter-spacing: 1px;
+                          margin-top: 0; margin-bottom: 8px;">
+                           <i class="bi bi-person" style="color: #C9A84C; font-size: 15px;"></i>
+                     PERSONAL INFORMATION
+                </p>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        {{ form.full_name }}
+                        {% if form.full_name.errors %}
+                            <p class="field-error">{{ form.full_name.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label>NIN</label>
+                        {{ form.nin }}
+                        {% if form.nin.errors %}
+                            <p class="field-error">{{ form.nin.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        {{ form.phone }}
+                        {% if form.phone.errors %}
+                            <p class="field-error">{{ form.phone.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label>Occupation</label>
+                        {{ form.occupation }}
+                        {% if form.occupation.errors %}
+                            <p class="field-error">{{ form.occupation.errors }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <hr style="border: none; border-top: 1px solid #f2e8d5; margin: 15px 0;">
+
+                <!-- Section 2: Address -->
+                <p style="color: #C9A84C; font-weight: bold;
+                          font-size: 13px; letter-spacing: 1px;
+                          margin-top: 0; margin-bottom: 8px;">
+                           <i class="bi bi-house" style="color: #6B0F1A; font-size: 15px;"></i>
+                     ADDRESS
+                </p>
+
+                <div class="form-group">
+                    <label>Address</label>
+                    {{ form.address }}
+                    {% if form.address.errors %}
+                        <p class="field-error">{{ form.address.errors }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Divider -->
+                <hr style="border: none; border-top: 1px solid #f2e8d5; margin: 15px 0;">
+
+                <!-- Section 3: Agreement -->
+                <p style="color: #2D6A4F; font-weight: bold;
+                          font-size: 13px; letter-spacing: 1px;
+                          margin-top: 0; margin-bottom: 8px;">
+                           <i class="bi bi-file-text" style="color: #2D6A4F; font-size: 15px;"></i>
+                     AGREEMENT
+                </p>
+
+                <div style="background: #f9f3ea; padding: 15px;
+                            border-radius: 6px; margin-bottom: 15px;
+                            border-left: 4px solid #C9A84C;">
+                    <p style="font-size: 13px; color: #3a3a3a; margin: 0;">
+                        I confirm that the information provided matches my 
+                        National ID exactly. I agree to the terms of the 
+                        Nyondo Hardware Deposit Scheme. Goods will be 
+                        released based on the amount paid on the day of pickup.
+                    </p>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="checkbox" name="agreement" id="agreement" 
+                           required style="width: auto; margin: 0;">
+                    <label for="agreement" style="margin: 0; font-size: 14px;">
+                        I agree to the terms and conditions above
+                    </label>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit"
+                        style="width: 100%; padding: 12px;
+                               font-size: 15px; letter-spacing: 1px;
+                               margin-top: 20px;">
+                                <i class="bi bi-check-circle" style="margin-right: 6px;"></i>
+                     Register Customer
+                </button>
+
+            </div>
+            <!-- end form content -->
+
+        </div>
+        <!-- end master card -->
+
     </div>
+    <!-- end max width wrapper -->
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save Customer</button>
-    </form>
+</form>
 
-{% endblock %} 
+{% endblock %}
