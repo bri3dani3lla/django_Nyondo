@@ -111,21 +111,26 @@ def stock_entry_add(request):
     if request.method == 'POST':
         form = StockEntryForm(request.POST)
         if form.is_valid():
-# Don't save to DB yet — we need to add registered_by first
             entry = form.save(commit=False)
-# Only assign user if they are logged in
             if request.user.is_authenticated:
                 entry.registered_by = request.user
-# Update the product's quantity in stock
+            # update product quantity
             entry.product.quantity_in_stock += entry.quantity
             entry.product.save()
- # Now save the entry to the database
             entry.save()
+
+            # if payment is credit update supplier credit balance
+            if entry.payment_type == 'credit':
+                entry.supplier.credit_balance += entry.total_cost()
+                entry.supplier.save()
+
             return redirect('stock_entry_list')
     else:
         form = StockEntryForm()
-
-    return render(request, 'stock/stock_entry_form.html', {'form': form, 'title': 'Register Stock Entry'})
+    return render(request, 'stock/stock_entry_form.html', {
+        'form' : form,
+        'title': 'Register Stock Entry',
+    })
 
 
 # DELETE VIEWS

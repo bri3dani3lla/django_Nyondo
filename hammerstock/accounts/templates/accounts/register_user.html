@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}Register User{% endblock %}
+
+{% block content %}
+
+<h1>
+    <i class="bi bi-person-plus" style="color: #C9A84C; margin-right: 8px;"></i>
+    Register New User
+</h1>
+
+<div class="action-bar">
+    <a href="{% url 'admin_dashboard' %}">
+        <i class="bi bi-arrow-left" style="margin-right: 5px;"></i>
+        Back to Dashboard
+    </a>
+</div>
+
+<!-- Success message -->
+{% if success %}
+<div style="background: #e8f5e9; color: #2D6A4F;
+            padding: 12px 15px; border-radius: 6px;
+            border-left: 4px solid #2D6A4F; margin-bottom: 20px;">
+    <i class="bi bi-check-circle" style="margin-right: 6px;"></i>
+    {{ success }}
+</div>
+{% endif %}
+
+<!-- Max width wrapper -->
+<div style="max-width: 750px; margin: 0 auto;">
+
+    <!-- Master card -->
+    <div style="background: white; border-radius: 8px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+                overflow: hidden;">
+
+        <!-- Card header -->
+        <div style="background: #6B0F1A; padding: 10px 25px;
+                    display: flex; align-items: center; gap: 10px;">
+            <i class="bi bi-person-plus"
+               style="color: #C9A84C; font-size: 16px;"></i>
+            <span style="color: #C9A84C; font-weight: 600;
+                         font-size: 14px; letter-spacing: 2px;">
+                NEW USER REGISTRATION
+            </span>
+        </div>
+
+        <!-- Form content -->
+        <div style="padding: 25px;">
+
+            {% if error %}
+            <div class="error">
+                <i class="bi bi-exclamation-circle" style="margin-right: 6px;"></i>
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- Section 1: Personal Info -->
+                <p style="color: #6B0F1A; font-weight: bold;
+                          font-size: 13px; letter-spacing: 1px;
+                          margin-top: 0; margin-bottom: 8px;">
+                    <i class="bi bi-person"
+                       style="color: #C9A84C; font-size: 15px;"></i>
+                    PERSONAL INFORMATION
+                </p>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" name="first_name"
+                               placeholder="Enter first name">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" name="last_name"
+                               placeholder="Enter last name">
+                    </div>
+                </div>
+
+                <hr style="border: none; border-top: 1px solid #f2e8d5; margin: 15px 0;">
+
+                <!-- Section 2: Account Details -->
+                <p style="color: #C9A84C; font-weight: bold;
+                          font-size: 13px; letter-spacing: 1px;
+                          margin-top: 0; margin-bottom: 8px;">
+                    <i class="bi bi-shield-lock"
+                       style="color: #6B0F1A; font-size: 15px;"></i>
+                    ACCOUNT DETAILS
+                </p>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" name="username"
+                               placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select name="role">
+                            <option value="manager">Store Manager</option>
+                            <option value="attendant">Sales Attendant</option>
+                            <option value="accounts">Accounts / Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password1"
+                               placeholder="Enter password">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" name="password2"
+                               placeholder="Confirm password">
+                    </div>
+                </div>
+
+                <!-- Info box -->
+                <div style="background: #f9f3ea; padding: 12px 15px;
+                            border-radius: 6px; margin: 10px 0 15px 0;
+                            border-left: 4px solid #C9A84C;">
+                    <p style="font-size: 12px; color: #888; margin: 0;">
+                        <i class="bi bi-info-circle"
+                           style="color: #C9A84C; margin-right: 5px;"></i>
+                        The role determines which pages this user can access.
+                        Store Manager → Stock.
+                        Sales Attendant → Sales.
+                        Accounts/Admin → Scheme and Reports.
+                    </p>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit"
+                        style="width: 100%; padding: 12px;
+                               font-size: 15px; letter-spacing: 1px;">
+                    <i class="bi bi-person-check" style="margin-right: 6px;"></i>
+                    Register User
+                </button>
+
+            </form>
+
+        </div>
+        <!-- end form content -->
+
+    </div>
+    <!-- end master card -->
+
+</div>
+<!-- end max width wrapper -->
+
+{% endblock %}

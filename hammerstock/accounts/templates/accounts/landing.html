@@ -1,44 +1,308 @@
 {% extends 'base.html' %}
 
-{% block title %}Welcome to Nyondo Stock{% endblock %}
+{% block title %}Nyondo General Hardware LTD{% endblock %}
 
 {% block content %}
 
-    <div style="text-align: center; padding: 60px 20px;">
+<!-- Hero Section -->
+<div style="text-align: center; padding: 35px 20px 20px;
+            position: relative; overflow: hidden;">
 
-        <!-- Logo box -->
-        <div style="display: inline-block; background-color: #6B0F1A; 
-                    padding: 20px 30px; border-radius: 12px; margin-bottom: 30px;">
-            <div style="background-color: #C9A84C; color: #6B0F1A; 
-                        font-size: 36px; font-weight: bold; 
-                        width: 70px; height: 70px; border-radius: 10px;
-                        display: flex; align-items: center; 
-                        justify-content: center; margin: 0 auto 10px;">
-                NH
-            </div>
-            <p style="color: #F2E8D5; font-size: 20px; 
-                      font-weight: bold; letter-spacing: 2px;">
-                NYONDO HARDWARE
+    <!-- Faint background icons — evenly spread, more visible -->
+    <i class="bi bi-hammer"
+       style="position: absolute; left: 4%; top: 8%;
+              font-size: 85px; opacity: 0.08;
+              color: #6B0F1A; pointer-events: none;"></i>
+
+    <i class="bi bi-distribute-horizontal"
+       style="position: absolute; right: 4%; top: 8%;
+              font-size: 85px; opacity: 0.08;
+              color: #6B0F1A; pointer-events: none;"></i>
+
+    <i class="bi bi-bag"
+       style="position: absolute; left: 8%; top: 45%;
+              font-size: 75px; opacity: 0.08;
+              color: #C9A84C; pointer-events: none;"></i>
+
+    <i class="bi bi-house-roof"
+       style="position: absolute; right: 8%; top: 45%;
+              font-size: 75px; opacity: 0.08;
+              color: #C9A84C; pointer-events: none;"></i>
+
+    <i class="bi bi-gear"
+       style="position: absolute; left: 20%; bottom: 5%;
+              font-size: 65px; opacity: 0.07;
+              color: #6B0F1A; pointer-events: none;"></i>
+
+    <i class="bi bi-truck"
+       style="position: absolute; right: 20%; bottom: 5%;
+              font-size: 65px; opacity: 0.07;
+              color: #6B0F1A; pointer-events: none;"></i>
+
+    <i class="bi bi-tools"
+       style="position: absolute; left: 44%; top: 4%;
+              font-size: 55px; opacity: 0.07;
+              color: #C9A84C; pointer-events: none;"></i>
+
+    <i class="bi bi-box-seam"
+       style="position: absolute; left: 30%; bottom: 8%;
+              font-size: 60px; opacity: 0.07;
+              color: #C9A84C; pointer-events: none;"></i>
+
+    <i class="bi bi-wrench"
+       style="position: absolute; right: 30%; bottom: 8%;
+              font-size: 60px; opacity: 0.07;
+              color: #6B0F1A; pointer-events: none;"></i>
+
+    <!-- Logo -->
+    <div style="display: inline-block; background-color: #6B0F1A;
+                padding: 18px 28px; border-radius: 12px;
+                margin-bottom: 18px; position: relative; z-index: 1;">
+        <div style="background-color: #C9A84C; color: #6B0F1A;
+                    font-size: 28px; font-weight: bold;
+                    width: 58px; height: 58px; border-radius: 10px;
+                    display: flex; align-items: center;
+                    justify-content: center; margin: 0 auto 10px;">
+            NH
+        </div>
+        <p style="color: #F2E8D5; font-size: 17px;
+                  font-weight: bold; letter-spacing: 3px; margin: 0;">
+            NYONDO HARDWARE
+        </p>
+        <p style="color: #C9A84C; font-size: 11px;
+                  letter-spacing: 2px; margin: 5px 0 0 0;">
+            STOCK MANAGEMENT SYSTEM
+        </p>
+    </div>
+
+    <!-- Tagline — each word in gold -->
+    <h2 style="margin: 0 0 6px 0; border: none; padding: 0;
+               font-size: 20px; position: relative; z-index: 1;">
+        <span style="color: #C9A84C;">Track</span>
+        <span style="color: #6B0F1A;"> • </span>
+        <span style="color: #C9A84C;">Sell</span>
+        <span style="color: #6B0F1A;"> • </span>
+        <span style="color: #C9A84C;">Manage</span>
+        <span style="color: #6B0F1A;"> • </span>
+        <span style="color: #C9A84C;">Grow</span>
+    </h2>
+
+    <p style="color: #8d8375; font-size: 13px;
+              margin: 0 0 6px 0; position: relative; z-index: 1;">
+        Inventory • Sales • Suppliers • Reporting
+    </p>
+
+    <p style="color: #888; font-size: 13px; margin: 0 0 20px 0;
+              position: relative; z-index: 1;">
+        Powering hardware operations in Nansana, Uganda — Built for business.
+    </p>
+
+    <!-- Access button -->
+    <a href="{% url 'login' %}"
+       style="background-color: #6B0F1A; color: #F2E8D5;
+              padding: 13px 45px; border-radius: 6px;
+              font-size: 15px; font-weight: bold;
+              letter-spacing: 2px; display: inline-block;
+              transition: 0.3s ease; position: relative; z-index: 1;"
+       onmouseover="this.style.backgroundColor='#C9A84C';
+                    this.style.color='#6B0F1A';"
+       onmouseout="this.style.backgroundColor='#6B0F1A';
+                   this.style.color='#F2E8D5';">
+        <i class="bi bi-box-arrow-in-right" style="margin-right: 8px;"></i>
+        ACCESS SYSTEM
+    </a>
+
+</div>
+
+
+<!-- Feature Cards -->
+<div style="padding: 20px 0;">
+
+    <p style="text-align: center; color: #aaa; font-size: 11px;
+              letter-spacing: 2px; margin-bottom: 16px;">
+        SYSTEM FEATURES
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr);
+                gap: 16px;">
+
+        <div style="background: white; padding: 28px 18px;
+                    border-radius: 8px; text-align: center;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+                    border-top: 3px solid #6B0F1A;
+                    transition: 0.3s ease; cursor: default;"
+             onmouseover="this.style.transform='translateY(-6px)';
+                          this.style.boxShadow='0 10px 20px rgba(201,168,76,0.3)';"
+             onmouseout="this.style.transform='translateY(0)';
+                         this.style.boxShadow='0 4px 10px rgba(0,0,0,0.06)';">
+            <i class="bi bi-box-seam"
+               style="color: #C9A84C; font-size: 34px;"></i>
+            <p style="color: #6B0F1A; font-weight: bold;
+                      font-size: 13px; margin: 12px 0 5px 0;">
+                Inventory Control
             </p>
-            <p style="color: #C9A84C; font-size: 12px; letter-spacing: 1px;">
-                STOCK MANAGEMENT SYSTEM
+            <p style="color: #888; font-size: 11px; margin: 0;">
+                Monitor stock levels in real time
             </p>
         </div>
 
-        <h1 style="border: none; padding: 0; margin-bottom: 10px;">
-            Welcome to Nyondo General Hardware LTD
-        </h1>
-        <p style="color: #888; margin-bottom: 40px;">
-            A wholesale and retail hardware store located in Nansana, Uganda.
-        </p>
+        <div style="background: white; padding: 28px 18px;
+                    border-radius: 8px; text-align: center;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+                    border-top: 3px solid #C9A84C;
+                    transition: 0.3s ease; cursor: default;"
+             onmouseover="this.style.transform='translateY(-6px)';
+                          this.style.boxShadow='0 10px 20px rgba(201,168,76,0.3)';"
+             onmouseout="this.style.transform='translateY(0)';
+                         this.style.boxShadow='0 4px 10px rgba(0,0,0,0.06)';">
+            <i class="bi bi-receipt"
+               style="color: #6B0F1A; font-size: 34px;"></i>
+            <p style="color: #6B0F1A; font-weight: bold;
+                      font-size: 13px; margin: 12px 0 5px 0;">
+                Sales Management
+            </p>
+            <p style="color: #888; font-size: 11px; margin: 0;">
+                Track transactions and receipts
+            </p>
+        </div>
 
-        <a href="{% url 'login' %}" 
-           style="background-color: #6B0F1A; color: #F2E8D5; 
-                  padding: 14px 40px; border-radius: 6px; 
-                  font-size: 16px; font-weight: bold;">
-            Login to the System
-        </a>
+        <div style="background: white; padding: 28px 18px;
+                    border-radius: 8px; text-align: center;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+                    border-top: 3px solid #6B0F1A;
+                    transition: 0.3s ease; cursor: default;"
+             onmouseover="this.style.transform='translateY(-6px)';
+                          this.style.boxShadow='0 10px 20px rgba(201,168,76,0.3)';"
+             onmouseout="this.style.transform='translateY(0)';
+                         this.style.boxShadow='0 4px 10px rgba(0,0,0,0.06)';">
+            <i class="bi bi-truck"
+               style="color: #C9A84C; font-size: 34px;"></i>
+            <p style="color: #6B0F1A; font-weight: bold;
+                      font-size: 13px; margin: 12px 0 5px 0;">
+                Supplier Management
+            </p>
+            <p style="color: #888; font-size: 11px; margin: 0;">
+                Organise suppliers and deliveries
+            </p>
+        </div>
+
+        <div style="background: white; padding: 28px 18px;
+                    border-radius: 8px; text-align: center;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+                    border-top: 3px solid #C9A84C;
+                    transition: 0.3s ease; cursor: default;"
+             onmouseover="this.style.transform='translateY(-6px)';
+                          this.style.boxShadow='0 10px 20px rgba(201,168,76,0.3)';"
+             onmouseout="this.style.transform='translateY(0)';
+                         this.style.boxShadow='0 4px 10px rgba(0,0,0,0.06)';">
+            <i class="bi bi-cash-stack"
+               style="color: #6B0F1A; font-size: 34px;"></i>
+            <p style="color: #6B0F1A; font-weight: bold;
+                      font-size: 13px; margin: 12px 0 5px 0;">
+                Flexible Payments
+            </p>
+            <p style="color: #888; font-size: 11px; margin: 0;">
+                Cash • Mobile Money • Credit
+            </p>
+        </div>
 
     </div>
+
+</div>
+
+<!-- Premium Full Width Product Banner -->
+<!-- <div
+style="
+width:100vw; position:relative; left:50%; margin-left:-50vw;
+margin-top:35px; margin-bottom:25px; overflow:hidden;"> -->
+
+<!-- TOP GOLD FADE -->
+<!-- <div style="height:2px; background: linear-gradient(to right, transparent,
+#C9A84C 12%,#C9A84C 88%, transparent);">
+</div> -->
+
+<!-- MAROON BAND -->
+<!-- <div style="background:linear-gradient(to right,rgba(107,15,26,0),#6B0F1A 5%,#6B0F1A 95%,rgba(107,15,26,0)); padding:16px 20px; text-align:center;">
+
+<p style="color:#C9A84C; font-size:13px; font-weight:bold; letter-spacing:2px; margin:0;">
+Cement
+
+&nbsp;&nbsp;•&nbsp;&nbsp;
+
+Iron Bars
+
+&nbsp;&nbsp;•&nbsp;&nbsp;
+
+Iron Sheets
+
+&nbsp;&nbsp;•&nbsp;&nbsp;
+
+Wire Mesh
+
+&nbsp;&nbsp;•&nbsp;&nbsp;
+
+Barbed Wire
+
+&nbsp;&nbsp;•&nbsp;&nbsp;
+
+Nails
+
+&nbsp;&nbsp;•&nbsp;&nbsp;
+
+Wheelbarrows
+
+</p>
+</div> -->
+
+<!-- BOTTOM GOLD FADE -->
+<!-- <div style="height:2px; background: linear-gradient(to right, transparent,
+#C9A84C 12%,#C9A84C 88%, transparent);">
+</div>
+</div> -->
+
+<!-- Bottom scattered icons -->
+<div style="position: relative; height: 80px; overflow: hidden; margin: 0 0 10px 0;">
+
+    <i class="bi bi-hammer"
+       style="position: absolute; left: 8%; top: 20%;
+              font-size: 55px; opacity: 0.08;
+              color: #6B0F1A; pointer-events: none;"></i>
+
+    <i class="bi bi-tools"
+       style="position: absolute; left: 22%; top: 15%;
+              font-size: 50px; opacity: 0.08;
+              color: #C9A84C; pointer-events: none;"></i>
+
+    <i class="bi bi-box-seam"
+       style="position: absolute; left: 38%; top: 25%;
+              font-size: 48px; opacity: 0.08;
+              color: #6B0F1A; pointer-events: none;"></i>
+
+    <i class="bi bi-truck"
+       style="position: absolute; left: 54%; top: 15%;
+              font-size: 52px; opacity: 0.08;
+              color: #C9A84C; pointer-events: none;"></i>
+
+    <i class="bi bi-gear"
+       style="position: absolute; left: 70%; top: 20%;
+              font-size: 50px; opacity: 0.08;
+              color: #6B0F1A; pointer-events: none;"></i>
+
+    <i class="bi bi-wrench"
+       style="position: absolute; left: 85%; top: 15%;
+              font-size: 48px; opacity: 0.08;
+              color: #C9A84C; pointer-events: none;"></i>
+
+</div>
+
+
+<!-- Bottom strip -->
+<div style="text-align: center; padding: 15px 0 25px;">
+    <p style="color: #7f7466; font-weight: 600;
+              font-size: 12px; letter-spacing: 1px; margin: 0;">
+        Wholesale &nbsp;•&nbsp; Retail &nbsp;•&nbsp;
+        Inventory Control 
+    </p>
+</div>
 
 {% endblock %}

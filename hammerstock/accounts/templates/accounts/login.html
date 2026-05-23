@@ -4,50 +4,72 @@
 
 {% block content %}
 
-<div style="max-width: 420px; margin: 60px auto;">
+<div style="min-height: 80vh; display: flex;
+            align-items: center; justify-content: center;">
 
-    <!-- Master card -->
-    <div style="background: white; border-radius: 10px;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-                overflow: hidden;">
+    <!-- Login card -->
+    <div style="background: white; border-radius: 12px;
+                box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+                width: 100%; max-width: 420px;
+                position: relative; overflow: hidden;">
 
-        <!-- Card header -->
-        <div style="background: #6B0F1A; padding: 30px 25px;
-                    text-align: center;">
-
-            <!-- NH Logo -->
-            <div style="background-color: #C9A84C; color: #6B0F1A;
-                        font-size: 22px; font-weight: bold;
-                        width: 55px; height: 55px; border-radius: 8px;
-                        display: flex; align-items: center;
-                        justify-content: center; margin: 0 auto 12px;">
-                NH
-            </div>
-
-            <p style="color: #F2E8D5; font-size: 16px;
-                      font-weight: bold; letter-spacing: 2px; margin: 0;">
-                NYONDO HARDWARE
-            </p>
-            <p style="color: #C9A84C; font-size: 11px;
-                      letter-spacing: 1px; margin: 5px 0 0 0;">
-                STOCK MANAGEMENT SYSTEM
-            </p>
-        </div>
+        <!-- Faint background icons -->
+        <i class="bi bi-hammer"
+           style="position: absolute; right: -15px; top: -10px;
+                  font-size: 120px; opacity: 0.04;
+                  color: #6B0F1A; pointer-events: none;"></i>
+        <i class="bi bi-gear"
+           style="position: absolute; left: -20px; bottom: -15px;
+                  font-size: 110px; opacity: 0.04;
+                  color: #C9A84C; pointer-events: none;"></i>
+        <i class="bi bi-tools"
+           style="position: absolute; right: 10px; bottom: 60px;
+                  font-size: 70px; opacity: 0.03;
+                  color: #6B0F1A; pointer-events: none;"></i>
 
         <!-- Form content -->
-        <div style="padding: 30px 25px;">
+        <div style="padding: 28px 35px 40px;
+                    position: relative; z-index: 1;">
 
-            <!-- Sign in title -->
-            <p style="text-align: center; color: #6B0F1A;
-                      font-weight: bold; font-size: 13px;
-                      letter-spacing: 2px; margin: 0 0 20px 0;">
-                      <i class="bi bi-lock-fill me-2"></i> 
-                SIGN IN
+            <!-- NH Logo -->
+            <div style="text-align: center; margin-bottom: 18px;">
+                <div style="background-color: #6B0F1A; color: #C9A84C;
+                            font-size: 24px; font-weight: bold;
+                            width: 55px; height: 55px; border-radius: 10px;
+                            display: flex; align-items: center;
+                            justify-content: center; margin: 0 auto 12px;">
+                    NH
+                </div>
+                <p style="color: #6B0F1A; font-size: 15px;
+                          font-weight: bold; letter-spacing: 3px; margin: 0;">
+                    NYONDO HARDWARE
+                </p>
+                <p style="color: #888; font-size: 11px;
+                          letter-spacing: 1px; margin: 4px 0 0 0;">
+                    Stock Management System
+                </p>
+            </div>
+
+            <!-- Tagline -->
+            <p style="text-align: center; font-size: 12px;
+                      margin: 0 0 18px 0; letter-spacing: 1px;">
+                <span style="color: #C9A84C; font-weight: bold;">Track</span>
+                <span style="color: #888;"> • </span>
+                <span style="color: #C9A84C; font-weight: bold;">Sell</span>
+                <span style="color: #888;"> • </span>
+                <span style="color: #C9A84C; font-weight: bold;">Manage</span>
+                <span style="color: #888;"> • </span>
+                <span style="color: #C9A84C; font-weight: bold;">Grow</span>
             </p>
+
+            <hr style="border: none; border-top: 1px solid #f2e8d5;
+                       margin: 0 0 18px 0;">
 
             <!-- Error message -->
             {% if error %}
-            <div class="error">
+            <div class="error" style="margin-bottom: 15px;">
+                <i class="bi bi-exclamation-circle"
+                   style="margin-right: 6px;"></i>
                 {{ error }}
             </div>
             {% endif %}
@@ -57,41 +79,79 @@
 
                 <!-- Username -->
                 <div class="form-group">
-                    <label>Username</label>
+                    <label style="font-size: 14px; font-weight: 600;">
+                        <i class="bi bi-person"
+                           style="color: #C9A84C; margin-right: 5px;"></i>
+                        Username
+                    </label>
                     <input type="text" name="username"
                            placeholder="Enter your username">
                 </div>
 
                 <!-- Password -->
                 <div class="form-group">
-                    <label>Password</label>
+                    <label style="font-size: 14px; font-weight: 600;">
+                        <i class="bi bi-lock"
+                           style="color: #C9A84C; margin-right: 5px;"></i>
+                        Password
+                    </label>
                     <input type="password" name="password"
                            placeholder="Enter your password">
+                </div>
+
+                <!-- Remember me + help text -->
+                <div style="display: flex; align-items: center;
+                            justify-content: space-between;
+                            margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" name="remember"
+                               id="remember"
+                               style="width: auto; margin: 0;
+                                      accent-color: #6B0F1A;">
+                        <label for="remember"
+                               style="margin: 0; font-size: 13px;
+                                      color: #888; font-weight: normal;
+                                      cursor: pointer;">
+                            Remember me
+                        </label>
+                    </div>
+                    <span style="font-size: 12px; color: #C9A84C;
+                                 cursor: pointer;">
+                        Need help? Contact admin
+                    </span>
                 </div>
 
                 <!-- Login button -->
                 <button type="submit"
                         style="width: 100%; padding: 12px;
-                               font-size: 15px; letter-spacing: 1px;
-                               margin-top: 10px; border-radius: 6px;
-                               transition: 0.3s ease;">
-                    LOGIN
+                               font-size: 14px; letter-spacing: 2px;
+                               border-radius: 6px; transition: 0.3s ease;"
+                        onmouseover="this.style.backgroundColor='#C9A84C';
+                                     this.style.color='#6B0F1A';"
+                        onmouseout="this.style.backgroundColor='#6B0F1A';
+                                    this.style.color='#F2E8D5';">
+                    <i class="bi bi-box-arrow-in-right"
+                       style="margin-right: 8px;"></i>
+                    ACCESS SYSTEM
                 </button>
 
             </form>
 
             <!-- Back to home -->
-            <p style="text-align: center; margin-top: 20px; font-size: 13px;">
-                <a href="{% url 'landing' %}" style="color: #6B0F1A;">
-                    Back to Home
-                </a>
-            </p>
+<p style="text-align: center; margin-top: 16px;">
+    <a href="{% url 'landing' %}"
+       style="color: #6B0F1A; font-size: 14px;
+              font-weight: 600; letter-spacing: 1px;">
+        <i class="bi bi-arrow-left" style="margin-right: 4px;"></i>
+        Back to Home
+    </a>
+</p>
 
         </div>
         <!-- end form content -->
 
     </div>
-    <!-- end master card -->
+    <!-- end login card -->
 
 </div>
 

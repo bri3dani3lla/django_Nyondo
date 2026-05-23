@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+
+<h1>
+    <i class="bi bi-speedometer2" style="color: #C9A84C; margin-right: 8px;"></i>
+    System Dashboard
+</h1>
+
+<!-- System Overview Cards — 3 column grid -->
+<div style="display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 16px; margin-bottom: 30px;">
+    <div class="card">
+        <p>Total Users</p>
+        <h2>{{ total_users }}</h2>
+    </div>
+    <div class="card">
+        <p>Total Products</p>
+        <h2>{{ total_products }}</h2>
+    </div>
+    <div class="card">
+        <p>Total Sales</p>
+        <h2>{{ total_sales }}</h2>
+    </div>
+    <div class="card">
+        <p>Total Revenue</p>
+        <h2>{{ total_revenue|floatformat:0 }} UGX</h2>
+    </div>
+    <div class="card">
+        <p>Suppliers</p>
+        <h2>{{ total_suppliers }}</h2>
+    </div>
+    <div class="card">
+        <p>Scheme Customers</p>
+        <h2>{{ total_scheme }}</h2>
+    </div>
+</div>
+
+<hr>
+
+<!-- Quick Links -->
+<div class="action-bar" style="margin-bottom: 20px;">
+    <a href="{% url 'stock_dashboard' %}" style="padding: 12px 18px;">
+        <i class="bi bi-box-seam" style="margin-right: 5px;"></i>
+        Stock
+    </a>
+    <a href="{% url 'sale_list' %}" style="padding: 12px 18px;">
+        <i class="bi bi-receipt" style="margin-right: 5px;"></i>
+        Sales
+    </a>
+    <a href="{% url 'scheme_customer_list' %}" style="padding: 12px 18px;">
+        <i class="bi bi-people" style="margin-right: 5px;"></i>
+        Scheme
+    </a>
+    <a href="{% url 'reports_dashboard' %}" style="padding: 12px 18px;">
+        <i class="bi bi-graph-up" style="margin-right: 5px;"></i>
+        Reports
+    </a>
+    <a href="{% url 'register_user' %}"
+       style="padding: 12px 18px; background-color: #C9A84C; color: #6B0F1A;">
+        <i class="bi bi-person-plus" style="margin-right: 5px;"></i>
+        Register User
+    </a>
+</div>
+
+<hr>
+
+<!-- User Management -->
+<h2>
+    <i class="bi bi-people" style="color: #C9A84C; margin-right: 8px;"></i>
+    User Management
+</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Last Login</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.get_full_name|default:"—" }}</td>
+            <td>
+                {% if user.is_superuser %}
+                    <span style="background: #6B0F1A; color: #C9A84C;
+                                 padding: 3px 10px; border-radius: 20px;
+                                 font-size: 11px; font-weight: bold;">
+                        Superuser
+                    </span>
+                {% else %}
+                    {% if user.profile.role == 'manager' %}
+                        <span style="background: #f9f3ea; color: #6B0F1A;
+                                     padding: 3px 10px; border-radius: 20px;
+                                     font-size: 11px; font-weight: bold;
+                                     border: 1px solid #C9A84C;">
+                            Store Manager
+                        </span>
+                    {% elif user.profile.role == 'attendant' %}
+                        <span style="background: #e8f5e9; color: #2D6A4F;
+                                     padding: 3px 10px; border-radius: 20px;
+                                     font-size: 11px; font-weight: bold;">
+                            Sales Attendant
+                        </span>
+                    {% elif user.profile.role == 'accounts' %}
+                        <span style="background: #e8eaf6; color: #3949ab;
+                                     padding: 3px 10px; border-radius: 20px;
+                                     font-size: 11px; font-weight: bold;">
+                            Accounts/Admin
+                        </span>
+                    {% endif %}
+                {% endif %}
+            </td>
+            <td>
+                {% if user.is_active %}
+                    <span style="color: #2D6A4F; font-weight: bold;">
+                        <i class="bi bi-check-circle"></i> Active
+                    </span>
+                {% else %}
+                    <span style="color: red; font-weight: bold;">
+                        <i class="bi bi-x-circle"></i> Inactive
+                    </span>
+                {% endif %}
+            </td>
+            <td>
+                {% if user.last_login %}
+                    {{ user.last_login|date:"M d, Y" }}
+                {% else %}
+                    Never
+                {% endif %}
+            </td>
+            <td>
+                {% if not user.is_superuser %}
+                <a href="{% url 'edit_user' user.pk %}"
+                   class="action-edit">
+                    <i class="bi bi-pencil"></i> Edit
+                </a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr>
+
+<!-- Recent Activity -->
+<h2>
+    <i class="bi bi-clock-history" style="color: #C9A84C; margin-right: 8px;"></i>
+    Recent Activity
+</h2>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+
+    <!-- Recent Stock -->
+    <div style="background: white; border-radius: 8px;
+                box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+                overflow: hidden;">
+        <div style="background: #6B0F1A; padding: 10px 15px;">
+            <p style="color: #C9A84C; font-size: 12px;
+                      font-weight: bold; letter-spacing: 1px; margin: 0;">
+                <i class="bi bi-box-seam" style="margin-right: 5px;"></i>
+                RECENT STOCK
+            </p>
+        </div>
+        <div style="padding: 12px 15px;">
+            {% for entry in recent_stock %}
+            <div style="border-bottom: 1px solid #f2e8d5;
+                        padding: 6px 0; font-size: 12px;">
+                <p style="margin: 0; color: #6B0F1A; font-weight: bold;">
+                    {{ entry.product }}
+                </p>
+                <p style="margin: 0; color: #888;">
+                    {{ entry.quantity }} units — {{ entry.date_received }}
+                </p>
+            </div>
+            {% empty %}
+            <div style="text-align: center; padding: 20px 0; color: #888;">
+                <i class="bi bi-box-seam"
+                   style="font-size: 28px; color: #ddd;
+                          display: block; margin-bottom: 8px;"></i>
+                <p style="font-size: 12px; margin: 0;">No stock entries yet</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Recent Sales -->
+    <div style="background: white; border-radius: 8px;
+                box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+                overflow: hidden;">
+        <div style="background: #6B0F1A; padding: 10px 15px;">
+            <p style="color: #C9A84C; font-size: 12px;
+                      font-weight: bold; letter-spacing: 1px; margin: 0;">
+                <i class="bi bi-receipt" style="margin-right: 5px;"></i>
+                RECENT SALES
+            </p>
+        </div>
+        <div style="padding: 12px 15px;">
+            {% for sale in recent_sales %}
+            <div style="border-bottom: 1px solid #f2e8d5;
+                        padding: 6px 0; font-size: 12px;">
+                <p style="margin: 0; color: #6B0F1A; font-weight: bold;">
+                    Sale #{{ sale.pk }}
+                </p>
+                <p style="margin: 0; color: #888;">
+                    {{ sale.grand_total|floatformat:0 }} UGX
+                    — {{ sale.sale_date }}
+                </p>
+            </div>
+            {% empty %}
+            <div style="text-align: center; padding: 20px 0; color: #888;">
+                <i class="bi bi-receipt"
+                   style="font-size: 28px; color: #ddd;
+                          display: block; margin-bottom: 8px;"></i>
+                <p style="font-size: 12px; margin: 0;">No sales recorded yet</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Recent Deposits -->
+    <div style="background: white; border-radius: 8px;
+                box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+                overflow: hidden;">
+        <div style="background: #6B0F1A; padding: 10px 15px;">
+            <p style="color: #C9A84C; font-size: 12px;
+                      font-weight: bold; letter-spacing: 1px; margin: 0;">
+                <i class="bi bi-wallet2" style="margin-right: 5px;"></i>
+                RECENT DEPOSITS
+            </p>
+        </div>
+        <div style="padding: 12px 15px;">
+            {% for deposit in recent_deposits %}
+            <div style="border-bottom: 1px solid #f2e8d5;
+                        padding: 6px 0; font-size: 12px;">
+                <p style="margin: 0; color: #6B0F1A; font-weight: bold;">
+                    {{ deposit.customer }}
+                </p>
+                <p style="margin: 0; color: #888;">
+                    {{ deposit.amount|floatformat:0 }} UGX
+                    — {{ deposit.deposit_date }}
+                </p>
+            </div>
+            {% empty %}
+            <div style="text-align: center; padding: 20px 0; color: #888;">
+                <i class="bi bi-wallet2"
+                   style="font-size: 28px; color: #ddd;
+                          display: block; margin-bottom: 8px;"></i>
+                <p style="font-size: 12px; margin: 0;">No deposits recorded yet</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
