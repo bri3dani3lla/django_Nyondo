@@ -142,7 +142,8 @@
       }
 
       table tr:hover {
-        background-color: #fdf6ec;
+        background-color: #F8F5EF;
+        transition: 0.2s;
       }
 
       /*  Links  */
@@ -260,7 +261,7 @@
 
       .card {
         background-color: #fff;
-        border-left: 5px solid #c9a84c;
+        /* border-left: 5px solid #c9a84c; */
         padding: 16px 20px;
         border-radius: 6px;
         flex: 1;
@@ -301,40 +302,40 @@
         color: #c9a84c;
       }
 
-      /* ── Form cards ── */
+      /*  Form cards  */
 .form-card {
     background: white;
-    padding: 18px 20px;        /* reduced from 25px */
+    padding: 18px 20px;        
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    margin-bottom: 12px;       /* reduced from 20px */
+    margin-bottom: 12px;       
 }
 
 .form-section-title {
     margin-top: 0;
-    margin-bottom: 10px;       /* reduced from 15px */
-    padding-bottom: 8px;       /* reduced from 10px */
+    margin-bottom: 10px;      
+    padding-bottom: 8px;       
     border-bottom: 1px solid #f2e8d5;
     color: #6B0F1A;
-    font-size: 14px;           /* slightly smaller */
+    font-size: 14px;           
 }
 
 .form-grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;                 /* reduced from 15px */
+    gap: 12px;                
 }
 
 .form-grid-3 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;                 /* reduced from 15px */
+    gap: 12px;                 
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 5px;        /* reduced spacing */
+    margin-bottom: 5px;        
 }
 
 .field-error {
@@ -342,6 +343,24 @@
     font-size: 12px;
     margin-top: 4px;
 }
+
+.stock-zero {
+    color: #C62828;
+    font-weight: bold;
+}
+.stock-low {
+    color: #B77900;
+    font-weight: bold;
+}
+
+.stat-danger  { color: #C62828; font-weight: bold; }
+.stat-warning { color: #B77900; font-weight: bold; }
+.stat-success { color: #176B2C; font-weight: bold; }
+.stat-gold    { color: #6B0F1A; font-weight: bold; }
+.card-danger  { background: #FFF6F6; border-left: 5px solid #C62828 !important; }
+.card-warning { background: #FFFBF0; border-left: 5px solid #B77900 !important; }
+.card-success { background: #F0FFF4; border-left: 5px solid #176B2C !important; }
+.card-gold    { background: #FFFDF5; border-left: 5px solid #C9A84C !important; }
 
     </style>
 
@@ -352,59 +371,37 @@
     <!-- Navbar — only shows when user is logged in -->
     {% if request.user.is_authenticated %}
     <nav class="navbar">
-      <!-- Logo -->
-      <a
-        href="
-{% if request.user.is_superuser %}
-    {% url 'stock_dashboard' %}
-{% elif request.user.profile.role == 'manager' %}
-    {% url 'stock_dashboard' %}
-{% elif request.user.profile.role == 'attendant' %}
-    {% url 'sales_dashboard' %}
-{% elif request.user.profile.role == 'accounts' %}
-    {% url 'reports_dashboard' %}
-{% endif %}
-"
-        class="logo"
-      >
+
+    <!-- Logo -->
+    <a href="{% if request.user.is_superuser %}{% url 'admin_dashboard' %}{% elif request.user.profile.role == 'manager' %}{% url 'stock_dashboard' %}{% elif request.user.profile.role == 'attendant' %}{% url 'sales_dashboard' %}{% elif request.user.profile.role == 'accounts' %}{% url 'reports_dashboard' %}{% else %}{% url 'landing' %}{% endif %}" class="logo">
         <div class="logo-icon">NH</div>
         <div class="logo-text">
-          <span class="logo-name">NYONDO HARDWARE</span>
-          <span class="logo-tagline">STOCK MANAGEMENT SYSTEM</span>
+            <span class="logo-name">NYONDO HARDWARE</span>
+            <span class="logo-tagline">STOCK MANAGEMENT SYSTEM</span>
         </div>
-      </a>
+    </a>
 
-      <!-- Nav links -->
-      <!-- <div class="nav-links">
-        <a href="{% url 'stock_dashboard' %}">Stock</a>
-        <a href="{% url 'sale_list' %}">Sales</a>
-        <a href="{% url 'scheme_customer_list' %}">Scheme</a>
-        <a href="{% url 'reports_dashboard' %}">Reports</a>
-        <a href="{% url 'logout' %}">Logout</a>
-      </div> -->
-
-      <div class="nav-links">
+    <!-- Nav links -->
+    <div class="nav-links">
         {% if request.user.is_superuser %}
-        <a href="{% url 'stock_dashboard' %}">Stock</a>
-        <a href="{% url 'sale_list' %}">Sales</a>
-        <a href="{% url 'scheme_customer_list' %}">Scheme</a>
-        <a href="{% url 'reports_dashboard' %}">Reports</a>
-
+            <a href="{% url 'admin_dashboard' %}">Dashboard</a>
+            <a href="{% url 'stock_dashboard' %}">Stock</a>
+            <a href="{% url 'sale_list' %}">Sales</a>
+            <a href="{% url 'scheme_customer_list' %}">Scheme</a>
+            <a href="{% url 'reports_dashboard' %}">Reports</a>
         {% elif request.user.profile.role == 'manager' %}
-        <a href="{% url 'stock_dashboard' %}">Stock</a>
-
+            <a href="{% url 'stock_dashboard' %}">Stock</a>
         {% elif request.user.profile.role == 'attendant' %}
-        <a href="{% url 'sale_list' %}">Sales</a>
-        <a href="{% url 'stock_dashboard' %}">Check Stock</a>
-
+            <a href="{% url 'sales_dashboard' %}">Sales</a>
+            <a href="{% url 'stock_dashboard' %}">Check Stock</a>
         {% elif request.user.profile.role == 'accounts' %}
-        <a href="{% url 'scheme_customer_list' %}">Scheme</a>
-        <a href="{% url 'reports_dashboard' %}">Reports</a>
+            <a href="{% url 'scheme_customer_list' %}">Scheme</a>
+            <a href="{% url 'reports_dashboard' %}">Reports</a>
         {% endif %}
-
         <a href="{% url 'logout' %}">Logout</a>
-      </div>
-    </nav>
+    </div>
+
+</nav>
     {% endif %}
 
     <!-- Main content -->

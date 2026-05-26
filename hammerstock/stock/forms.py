@@ -2,12 +2,17 @@ from django import forms
 from .models import Product, Supplier, StockEntry
 
 
+
 class SupplierForm(forms.ModelForm):
     class Meta:
         model  = Supplier
         fields = ['name', 'phone',
                    'address', 'credit_balance',
                    'product_delivered', 'due_date',]
+        
+        widgets = {
+            'due_date': forms.DateInput(attrs={'type': 'date'})
+        }
 
     def clean_phone(self):
         """
@@ -70,6 +75,11 @@ class StockEntryForm(forms.ModelForm):
             'storage_location',
         ]
 
+        widgets = {
+            'date_received': forms.DateInput(attrs={'type': 'date'})
+        }
+
+
     def clean_quantity(self):
         quantity = self.cleaned_data['quantity']
         if quantity <= 0:
@@ -98,4 +108,4 @@ class StockEntryForm(forms.ModelForm):
                     'Selling price must be greater than cost price. '
                     f'Cost is {unit_cost} — selling price must be higher.'
                 )
-        return cleaned_data
+        return cleaned_data 

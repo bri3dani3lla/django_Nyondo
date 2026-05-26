@@ -12,18 +12,24 @@ from .forms import ProductForm, SupplierForm, StockEntryForm
 # form.save(commit=False) - creates object but holds it in memory without saving to DB yet, so we can add extra fields like:registered_by
 
 
-# Create your views here.
-@role_required('manager', 'attendant') 
+# Create your views here. 
+@role_required('manager', 'attendant')
 def stock_dashboard(request):
-    # Get all pdts and stock entries from the DB
-    products = Product.objects.all()
-    entries = StockEntry.objects.all().order_by('date_received')
+    products      = Product.objects.all()
+    entries       = StockEntry.objects.all().order_by('-date_received')
+    low_stock     = Product.objects.filter(
+                        quantity_in_stock__gt=0,
+                        quantity_in_stock__lt=10).count()
+    out_of_stock  = Product.objects.filter(quantity_in_stock__lte=0).count()
+    total_suppliers = Supplier.objects.count()
 
-    # send them to the templates
     return render(request, 'stock/dashboard.html', {
-        'products': products,
-        'entries': entries,
-    }) 
+        'products'        : products,
+        'entries'         : entries,
+        'low_stock'       : low_stock,
+        'out_of_stock'    : out_of_stock,
+        'total_suppliers' : total_suppliers,
+    })
 
 # PDT VIEWS
 @role_required('manager', 'attendant')

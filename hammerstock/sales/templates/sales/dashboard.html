@@ -8,15 +8,33 @@
 
     <!-- Summary cards -->
     <div class="cards">
-        <div class="card">
-            <p>Total Sales</p>
-            <h2>{{ total_sales }}</h2>
-        </div>
-        <div class="card">
-            <p>Total Revenue</p>
-            <h2>{{ total_revenue }} UGX</h2>
-        </div>
+    <div class="card card-success">
+        <p>
+            <i class="bi bi-receipt"
+               style="color: #176B2C; margin-right: 5px;"></i>
+            Total Sales
+        </p>
+        <h2 class="stat-success">{{ total_sales }}</h2>
     </div>
+
+    <div class="card card-success">
+        <p>
+            <i class="bi bi-cash-stack"
+               style="color: #176B2C; margin-right: 5px;"></i>
+            Total Revenue
+        </p>
+        <h2 class="stat-success">{{ total_revenue|floatformat:0 }} UGX</h2>
+    </div>
+
+    <div class="card card-gold">
+        <p>
+            <i class="bi bi-people"
+               style="color: #C9A84C; margin-right: 5px;"></i>
+            Total Customers
+        </p>
+        <h2 class="stat-gold">{{ total_customers }}</h2>
+    </div>
+</div>
 
     <!-- Quick actions -->
     <div class="action-bar">

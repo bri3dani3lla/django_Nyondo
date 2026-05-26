@@ -6,37 +6,81 @@
 
     <h1>Reports Dashboard</h1>
 
+    <div class="action-bar">
+    <a href="{% url 'stock_report' %}">
+        <i class="bi bi-graph-up" style="margin-right: 5px;"></i>
+        Stock Report
+    </a>
+    <a href="{% url 'sales_report' %}">
+        <i class="bi bi-graph-up" style="margin-right: 5px;"></i>
+        Sales Report
+    </a>
+    <a href="{% url 'scheme_report' %}">
+        <i class="bi bi-graph-up" style="margin-right: 5px;"></i>
+        Scheme Report
+    </a>
+</div>
+
     <!-- Summary cards -->
-    <div class="cards">
-        <div class="card">
-            <p>Total Products</p>
-            <h2>{{ total_products }}</h2>
-        </div>
-        <div class="card">
-            <p>Out of Stock</p>
-            <h2>{{ out_of_stock }}</h2>
-        </div>
-        <div class="card">
-            <p>Total Sales</p>
-            <h2>{{ total_sales }}</h2>
-        </div>
-        <div class="card">
-            <p>Total Revenue</p>
-            <h2>{{ total_revenue }} UGX</h2>
-        </div>
-        <div class="card">
-            <p>Scheme Customers</p>
-            <h2>{{ total_scheme_customers }}</h2>
-        </div>
-        <div class="card">
-            <p>Pending Deposits</p>
-            <h2>{{ pending_deposits }}</h2>
-        </div>
-        <div class="card">
-            <p>Picked Deposits</p>
-            <h2>{{ picked_deposits }}</h2>
-        </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 30px;">
+    <div class="card card-gold">
+        <p>
+            <i class="bi bi-box-seam"
+               style="color: #C9A84C; margin-right: 5px;"></i>
+            Total Products
+        </p>
+        <h2 class="stat-gold">{{ total_products }}</h2>
     </div>
+
+    <div class="card {% if out_of_stock > 0 %}card-danger{% else %}card-gold{% endif %}">
+        <p>
+            <i class="bi bi-x-circle"
+               style="color: #C62828; margin-right: 5px;"></i>
+            Out of Stock
+        </p>
+        <h2 class="{% if out_of_stock > 0 %}stat-danger{% else %}stat-gold{% endif %}">
+            {{ out_of_stock }}
+        </h2>
+    </div>
+
+    <div class="card card-success">
+        <p>
+            <i class="bi bi-receipt"
+               style="color: #176B2C; margin-right: 5px;"></i>
+            Total Sales
+        </p>
+        <h2 class="stat-success">{{ total_sales }}</h2>
+    </div>
+
+    <div class="card card-success">
+        <p>
+            <i class="bi bi-cash-stack"
+               style="color: #176B2C; margin-right: 5px;"></i>
+            Total Revenue
+        </p>
+        <h2 class="stat-success">{{ total_revenue|floatformat:0 }} UGX</h2>
+    </div>
+
+    <div class="card card-gold">
+        <p>
+            <i class="bi bi-people"
+               style="color: #C9A84C; margin-right: 5px;"></i>
+            Scheme Customers
+        </p>
+        <h2 class="stat-gold">{{ total_scheme_customers }}</h2>
+    </div>
+
+    <div class="card {% if pending_deposits > 0 %}card-warning{% else %}card-gold{% endif %}">
+        <p>
+            <i class="bi bi-hourglass-split"
+               style="color: #B77900; margin-right: 5px;"></i>
+            Pending Deposits
+        </p>
+        <h2 class="{% if pending_deposits > 0 %}stat-warning{% else %}stat-gold{% endif %}">
+            {{ pending_deposits }}
+        </h2>
+    </div>
+</div>
 
     <hr>
 

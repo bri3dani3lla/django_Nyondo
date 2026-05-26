@@ -7,10 +7,19 @@
     <h1>Sales</h1>
 
     <div class="action-bar">
-        <a href="{% url 'sale_add' %}">+ Record Sale</a>
-        <a href="{% url 'customer_list' %}">View Customers</a>
-        <a href="{% url 'customer_add' %}">+ Add Customer</a>
-    </div>
+    <a href="{% url 'sales_dashboard' %}">
+        <i class="bi bi-arrow-left" style="margin-right: 5px;"></i>
+        Back to Dashboard
+    </a>
+    <a href="{% url 'sale_add' %}">
+        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>
+        Record Sale
+    </a>
+    <a href="{% url 'customer_list' %}">
+        <i class="bi bi-people" style="margin-right: 5px;"></i>
+        Customers
+    </a>
+</div>
 
     <table>
         <thead>

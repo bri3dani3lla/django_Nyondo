@@ -145,9 +145,11 @@ def sales_dashboard(request):
     # Total revenue
     all_sales     = Sale.objects.all()
     total_revenue = sum(sale.grand_total() for sale in all_sales)
+    total_customers = Customer.objects.count()
 
     return render(request, 'sales/dashboard.html', {
         'recent_sales' : recent_sales,
         'total_sales'  : total_sales,
         'total_revenue': total_revenue,
+        'total_customers': total_customers,
     })

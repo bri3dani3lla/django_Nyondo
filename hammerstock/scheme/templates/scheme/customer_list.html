@@ -7,9 +7,19 @@
     <h1>Deposit Scheme Customers</h1>
 
     <div class="action-bar">
-        <a href="{% url 'scheme_customer_add' %}">+ Register Customer</a>
-        <a href="{% url 'deposit_add' %}">+ Record Deposit</a>
-    </div>
+    <a href="{% url 'reports_dashboard' %}">
+        <i class="bi bi-arrow-left" style="margin-right: 5px;"></i>
+        Back to Dashboard
+    </a>
+    <a href="{% url 'scheme_customer_add' %}">
+        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>
+        Register Customer
+    </a>
+    <a href="{% url 'deposit_add' %}">
+        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>
+        Record Deposit
+    </a>
+</div>
 
     <table>
         <thead>
