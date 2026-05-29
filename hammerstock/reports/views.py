@@ -3,6 +3,7 @@ from accounts.decorators import role_required
 from stock.models import Product, StockEntry, Supplier
 from sales.models import Sale, SaleItem
 from scheme.models import SchemeCustomer, Deposit 
+from django.db.models import Sum
 
 # Create your views here.
 @role_required('accounts')
@@ -21,7 +22,8 @@ def reports_dashboard(request):
 
     # ── Supplier credit summary ──
     # suppliers who are owed money
-    suppliers_on_credit = Supplier.objects.filter(credit_balance__gt=0)
+    suppliers_on_credit = Supplier.objects.filter(credit_balance__gt=0) 
+    total_credit_owed   = Supplier.objects.aggregate(total=Sum('credit_balance'))['total'] or 0
 
     # ── Scheme summary ──
     total_scheme_customers = SchemeCustomer.objects.count()
@@ -34,6 +36,7 @@ def reports_dashboard(request):
         'total_sales'           : total_sales,
         'total_revenue'         : total_revenue,
         'suppliers_on_credit'   : suppliers_on_credit,
+        'total_credit_owed'     : total_credit_owed,
         'total_scheme_customers': total_scheme_customers,
         'pending_deposits'      : pending_deposits,
         'picked_deposits'       : picked_deposits,
@@ -42,19 +45,37 @@ def reports_dashboard(request):
 
 @role_required('accounts')
 def stock_report(request):
-    # All products with their current stock levels
-    products = Product.objects.all().order_by('category')
-    return render(request, 'reports/stock_report.html', {'products': products})
+    products     = Product.objects.all().order_by('category')
+    total        = products.count()
+    out_of_stock = products.filter(quantity_in_stock=0).count()
+    low_stock    = products.filter(
+                       quantity_in_stock__gt=0,
+                       quantity_in_stock__lte=20).count()
+    in_stock     = products.filter(quantity_in_stock__gt=20).count()
+
+    return render(request, 'reports/stock_report.html', {
+        'products'    : products,
+        'total'       : total,
+        'out_of_stock': out_of_stock,
+        'low_stock'   : low_stock,
+        'in_stock'    : in_stock,
+    })
 
 
 @role_required('accounts')
 def sales_report(request):
-    # All sales with totals
+    # All sales with totals and average sale value
     sales         = Sale.objects.all().order_by('-sale_date')
     total_revenue = sum(sale.grand_total() for sale in sales)
+    total_sales   = sales.count()
+    # calculate average sale
+    average_sale  = total_revenue / total_sales if total_sales > 0 else 0
+
     return render(request, 'reports/sales_report.html', {
-        'sales'        : sales,
+        'sales'       : sales,
         'total_revenue': total_revenue,
+        'total_sales' : total_sales,
+        'average_sale': average_sale,
     })
 
 

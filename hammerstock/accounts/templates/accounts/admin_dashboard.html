@@ -4,6 +4,25 @@
 
 {% block content %}
 
+<!-- Faint background icons -->
+<div style="position: relative;">
+    <i class="bi bi-hammer"
+       style="position: absolute; right: 2%; top: 0;
+              font-size: 90px; opacity: 0.05;
+              color: #6B0F1A; pointer-events: none;"></i>
+    <i class="bi bi-gear"
+       style="position: absolute; left: 2%; top: 5%;
+              font-size: 80px; opacity: 0.05;
+              color: #C9A84C; pointer-events: none;"></i>
+    <i class="bi bi-tools"
+       style="position: absolute; right: 8%; top: 30%;
+              font-size: 70px; opacity: 0.04;
+              color: #6B0F1A; pointer-events: none;"></i>
+    <i class="bi bi-box-seam"
+       style="position: absolute; left: 5%; top: 40%;
+              font-size: 75px; opacity: 0.04;
+              color: #C9A84C; pointer-events: none;"></i>
+
 <h1>
     <i class="bi bi-speedometer2" style="color: #C9A84C; margin-right: 8px;"></i>
     System Dashboard
@@ -11,37 +30,50 @@
 
 <!-- System Overview Cards — 3 column grid -->
 <div style="display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 16px; margin-bottom: 30px;">
-    <div class="card">
-        <p>Total Users</p>
-        <h2>{{ total_users }}</h2>
+            gap: 16px; margin-bottom: 30px; position: relative; z-index: 1;">
+
+    <div class="card card-gold">
+        <p><i class="bi bi-people" style="color:#C9A84C; margin-right:5px;"></i>
+            Total Users</p>
+        <h2 class="stat-gold">{{ total_users }}</h2>
     </div>
-    <div class="card">
-        <p>Total Products</p>
-        <h2>{{ total_products }}</h2>
+
+    <div class="card card-gold">
+        <p><i class="bi bi-box-seam" style="color:#C9A84C; margin-right:5px;"></i>
+            Total Products</p>
+        <h2 class="stat-gold">{{ total_products }}</h2>
     </div>
-    <div class="card">
-        <p>Total Sales</p>
-        <h2>{{ total_sales }}</h2>
+
+    <div class="card card-success">
+        <p><i class="bi bi-receipt" style="color:#176B2C; margin-right:5px;"></i>
+            Total Sales</p>
+        <h2 class="stat-success">{{ total_sales }}</h2>
     </div>
-    <div class="card">
-        <p>Total Revenue</p>
-        <h2>{{ total_revenue|floatformat:0 }} UGX</h2>
+
+    <div class="card card-success">
+        <p><i class="bi bi-cash-stack" style="color:#176B2C; margin-right:5px;"></i>
+            Total Revenue</p>
+        <h2 class="stat-success">{{ total_revenue|floatformat:0 }} UGX</h2>
     </div>
-    <div class="card">
-        <p>Suppliers</p>
-        <h2>{{ total_suppliers }}</h2>
+
+    <div class="card card-gold">
+        <p><i class="bi bi-truck" style="color:#C9A84C; margin-right:5px;"></i>
+            Suppliers</p>
+        <h2 class="stat-gold">{{ total_suppliers }}</h2>
     </div>
-    <div class="card">
-        <p>Scheme Customers</p>
-        <h2>{{ total_scheme }}</h2>
+
+    <div class="card card-gold">
+        <p><i class="bi bi-person-badge" style="color:#C9A84C; margin-right:5px;"></i>
+            Scheme Customers</p>
+        <h2 class="stat-gold">{{ total_scheme }}</h2>
     </div>
+
 </div>
 
 <hr>
 
 <!-- Quick Links -->
-<div class="action-bar" style="margin-bottom: 20px;">
+<div class="action-bar" style="margin-bottom: 20px; position: relative; z-index: 1;">
     <a href="{% url 'stock_dashboard' %}" style="padding: 12px 18px;">
         <i class="bi bi-box-seam" style="margin-right: 5px;"></i>
         Stock
@@ -68,12 +100,12 @@
 <hr>
 
 <!-- User Management -->
-<h2>
+<h2 style="position: relative; z-index: 1;">
     <i class="bi bi-people" style="color: #C9A84C; margin-right: 8px;"></i>
     User Management
 </h2>
 
-<table>
+<table style="position: relative; z-index: 1;">
     <thead>
         <tr>
             <th>Username</th>
@@ -105,7 +137,7 @@
                             Store Manager
                         </span>
                     {% elif user.profile.role == 'attendant' %}
-                        <span style="background: #e8f5e9; color: #2D6A4F;
+                        <span style="background: #DFF5E1; color: #176B2C;
                                      padding: 3px 10px; border-radius: 20px;
                                      font-size: 11px; font-weight: bold;">
                             Sales Attendant
@@ -121,11 +153,15 @@
             </td>
             <td>
                 {% if user.is_active %}
-                    <span style="color: #2D6A4F; font-weight: bold;">
+                    <span style="background: #DFF5E1; color: #176B2C;
+                                 padding: 3px 10px; border-radius: 20px;
+                                 font-size: 11px; font-weight: bold;">
                         <i class="bi bi-check-circle"></i> Active
                     </span>
                 {% else %}
-                    <span style="color: red; font-weight: bold;">
+                    <span style="background: #FFE1E1; color: #C62828;
+                                 padding: 3px 10px; border-radius: 20px;
+                                 font-size: 11px; font-weight: bold;">
                         <i class="bi bi-x-circle"></i> Inactive
                     </span>
                 {% endif %}
@@ -134,13 +170,12 @@
                 {% if user.last_login %}
                     {{ user.last_login|date:"M d, Y" }}
                 {% else %}
-                    Never
+                    <span style="color: #888;">Never</span>
                 {% endif %}
             </td>
             <td>
                 {% if not user.is_superuser %}
-                <a href="{% url 'edit_user' user.pk %}"
-                   class="action-edit">
+                <a href="{% url 'edit_user' user.pk %}" class="action-edit">
                     <i class="bi bi-pencil"></i> Edit
                 </a>
                 {% endif %}
@@ -153,12 +188,13 @@
 <hr>
 
 <!-- Recent Activity -->
-<h2>
+<h2 style="position: relative; z-index: 1;">
     <i class="bi bi-clock-history" style="color: #C9A84C; margin-right: 8px;"></i>
     Recent Activity
 </h2>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px; position: relative; z-index: 1;">
 
     <!-- Recent Stock -->
     <div style="background: white; border-radius: 8px;
@@ -179,7 +215,8 @@
                     {{ entry.product }}
                 </p>
                 <p style="margin: 0; color: #888;">
-                    {{ entry.quantity }} units — {{ entry.date_received }}
+                    {{ entry.quantity|floatformat:0 }} units
+                    — {{ entry.date_received }}
                 </p>
             </div>
             {% empty %}
@@ -262,5 +299,8 @@
     </div>
 
 </div>
+
+</div>
+<!-- end relative wrapper -->
 
 {% endblock %}

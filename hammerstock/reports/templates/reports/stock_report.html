@@ -4,48 +4,107 @@
 
 {% block content %}
 
-    <h1>Stock Report</h1>
+<h1>
+    <i class="bi bi-graph-up" style="color: #C9A84C; margin-right: 8px;"></i>
+    Stock Report
+</h1>
 
-    <div class="action-bar">
+<div class="action-bar">
     <a href="{% url 'reports_dashboard' %}">
         <i class="bi bi-arrow-left" style="margin-right: 5px;"></i>
         Back to Reports
     </a>
+    <a href="#" onclick="window.print()"
+       style="background-color: #C9A84C; color: #6B0F1A;">
+        <i class="bi bi-printer" style="margin-right: 5px;"></i>
+        Print Report
+    </a>
 </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Category</th>
-                <th>Unit</th>
-                <th>Quantity in Stock</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in products %}
-            <tr>
-                <td>{{ product.name }}</td>
-                <td>{{ product.get_category_display }}</td>
-                <td>{{ product.get_unit_display }}</td>
-                <td>{{ product.quantity_in_stock }}</td>
-                <td>
-                    {% if product.quantity_in_stock == 0 %}
-                        <span style="color: red; font-weight: bold;">Out of Stock</span>
-                    {% elif product.quantity_in_stock < 10 %}
-                        <span style="color: orange; font-weight: bold;">Low Stock</span>
-                    {% else %}
-                        <span style="color: green; font-weight: bold;">In Stock</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5">No products found.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<!-- Summary cards -->
+<div style="display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 16px; margin-bottom: 30px;">
 
-{% endblock %} 
+    <div class="card card-gold">
+        <p><i class="bi bi-box-seam" style="color:#C9A84C; margin-right:5px;"></i>
+            Total Products</p>
+        <h2 class="stat-gold">{{ total }}</h2>
+    </div>
+
+    <div class="card card-success">
+        <p><i class="bi bi-check-circle" style="color:#176B2C; margin-right:5px;"></i>
+            In Stock</p>
+        <h2 class="stat-success">{{ in_stock }}</h2>
+    </div>
+
+    <div class="card {% if low_stock > 0 %}card-warning{% else %}card-success{% endif %}">
+        <p><i class="bi bi-exclamation-triangle" style="color:#B77900; margin-right:5px;"></i>
+            Low Stock</p>
+        <h2 class="{% if low_stock > 0 %}stat-warning{% else %}stat-success{% endif %}">
+            {{ low_stock }}
+        </h2>
+    </div>
+
+    <div class="card {% if out_of_stock > 0 %}card-danger{% else %}card-success{% endif %}">
+        <p><i class="bi bi-x-circle" style="color:#C62828; margin-right:5px;"></i>
+            Out of Stock</p>
+        <h2 class="{% if out_of_stock > 0 %}stat-danger{% else %}stat-success{% endif %}">
+            {{ out_of_stock }}
+        </h2>
+    </div>
+
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Unit</th>
+            <th>Quantity in Stock</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.get_category_display }}</td>
+            <td>{{ product.get_unit_display }}</td>
+            <td>{{ product.quantity_in_stock|floatformat:0 }}</td>
+            <td>
+                {% if product.quantity_in_stock == 0 %}
+                    <span style="background: #FFE1E1; color: #C62828;
+                                 padding: 4px 10px; border-radius: 20px;
+                                 font-size: 12px; font-weight: 600;">
+                        <i class="bi bi-x-circle" style="margin-right: 3px;"></i>
+                        Out of Stock
+                    </span>
+                {% elif product.quantity_in_stock <= 20 %}
+                    <span style="background: #FFF4D6; color: #B77900;
+                                 padding: 4px 10px; border-radius: 20px;
+                                 font-size: 12px; font-weight: 600;">
+                        <i class="bi bi-exclamation-triangle" style="margin-right: 3px;"></i>
+                        Low Stock
+                    </span>
+                {% else %}
+                    <span style="background: #DFF5E1; color: #176B2C;
+                                 padding: 4px 10px; border-radius: 20px;
+                                 font-size: 12px; font-weight: 600;">
+                        <i class="bi bi-check-circle" style="margin-right: 3px;"></i>
+                        In Stock
+                    </span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" style="text-align: center; padding: 20px;">
+                No products found.
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
