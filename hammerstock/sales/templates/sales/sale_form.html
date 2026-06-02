@@ -74,45 +74,46 @@
                 <hr style="border: none; border-top: 1px solid #f2e8d5; margin: 15px 0;">
 
                 <!-- Section 2: Product Sale -->
-                <p style="color: #C9A84C; font-weight: bold;
-                          font-size: 13px; letter-spacing: 1px;
-                          margin-top: 0; margin-bottom: 8px;">
-                          <i class="bi bi-cart" style="color: #6B0F1A; font-size: 15px;"></i>
-                    PRODUCT SALE
-                </p>
+<p style="color: #C9A84C; font-weight: bold;
+          font-size: 13px; letter-spacing: 1px;
+          margin-top: 0; margin-bottom: 8px;">
+    <i class="bi bi-cart" style="color: #6B0F1A; font-size: 15px;"></i>
+    PRODUCT SALE
+</p>
 
-                <div class="form-grid-2">
-                    <div class="form-group">
-                        <label>Product</label>
-                        {{ itemform.product }}
-                        {% if itemform.product.errors %}
-                            <p class="field-error">{{ itemform.product.errors }}</p>
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        <label>Unit Price (UGX)</label>
-                        {{ itemform.unit_price }}
-                        {% if itemform.unit_price.errors %}
-                            <p class="field-error">{{ itemform.unit_price.errors }}</p>
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        <label>Quantity</label>
-                        {{ itemform.quantity }}
-                        {% if itemform.quantity.errors %}
-                            <p class="field-error">{{ itemform.quantity.errors }}</p>
-                        {% endif %}
-                    </div>
-                    <!-- Auto calculated transport -->
-                    <div class="form-group">
-                        <label>Transport Fee</label>
-                        <div style="padding: 9px 12px; border: 1px solid #f2e8d5;
-                                    border-radius: 4px; background: #f9f3ea;
-                                    font-size: 14px; color: #888;">
-                            Auto-calculated on save
-                        </div>
-                    </div>
-                </div>
+{{ formset.management_form }}
+
+{% for itemform in formset %}
+<div style="background: #f9f3ea; padding: 15px;
+            border-radius: 6px; margin-bottom: 10px;
+            border-left: 3px solid #C9A84C;">
+    <p style="color: #888; font-size: 11px; 
+              margin: 0 0 8px 0;">
+        Item {{ forloop.counter }}
+    </p>
+    <div class="form-grid-2">
+        <div class="form-group">
+            <label>Product</label>
+            {{ itemform.product }}
+        </div>
+        <div class="form-group">
+            <label>Unit Price (UGX)</label>
+            {{ itemform.unit_price }}
+        </div>
+        <div class="form-group">
+            <label>Quantity</label>
+            {{ itemform.quantity }}
+        </div>
+        <div class="form-group" style="display: flex; align-items: center; gap: 8px; padding-top: 20px;">
+            {{ itemform.DELETE }}
+            <label style="margin: 0; font-size: 13px; color: #C62828;">
+                Remove this item
+            </label>
+        </div>
+    </div>
+    {{ itemform.id }}
+</div>
+{% endfor %}
 
                 <!-- Divider -->
                 <hr style="border: none; border-top: 1px solid #f2e8d5; margin: 15px 0;">

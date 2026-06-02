@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.decorators import role_required
-from .models import Sale, Customer
+from django.forms import inlineformset_factory
+from .models import Sale, SaleItem, Customer
 from .forms import SaleForm, SaleItemForm, CustomerForm
 from datetime import date
 
@@ -38,13 +39,25 @@ def sale_list(request):
     return render(request, 'sales/sale_list.html', {'sales': sales})
 
 
+# Create a formset for multiple items
+SaleItemFormSet = inlineformset_factory(
+    Sale,
+    SaleItem,
+    form=SaleItemForm,
+    extra=3,          # shows 3 empty item rows
+    can_delete=True,  # allows removing items
+    min_num=1,        # at least 1 item required
+    validate_min=True,
+)
+
+
 @role_required('attendant', 'manager')
 def sale_add(request):
     if request.method == 'POST':
-        form     = SaleForm(request.POST)
-        itemform = SaleItemForm(request.POST)
+        form    = SaleForm(request.POST)
+        formset = SaleItemFormSet(request.POST)
 
-        if form.is_valid() and itemform.is_valid():
+        if form.is_valid() and formset.is_valid():
             # Save the sale but don't commit yet
             sale           = form.save(commit=False)
             sale.sale_date = date.today()
@@ -52,26 +65,26 @@ def sale_add(request):
             # Save sale first so we can attach items to it
             sale.save()
 
-            # Save the sale item but don't commit yet
-            item      = itemform.save(commit=False)
-            item.sale = sale  # link the item to the sale
-
-            # Stock validation — check if enough stock exists
-            if item.quantity > item.product.quantity_in_stock:
-                # not enough stock — delete the sale and show error
-                sale.delete()
-                itemform.add_error(
-                    'quantity',
-                    f'Not enough stock. Only '
-                    f'{item.product.quantity_in_stock} units available.'
-                )
-                return render(request, 'sales/sale_form.html', {
-                    'form'    : form,
-                    'itemform': itemform,
-                    'title'   : 'Record Sale',
-                })
-
-            item.save()
+            # Save items from formset
+            items = formset.save(commit=False)
+            for item in items:
+                # Stock validation — check if enough stock exists
+                if item.quantity > item.product.quantity_in_stock:
+                    # not enough stock — delete the sale and show error
+                    sale.delete()
+                    return render(request, 'sales/sale_form.html', {
+                        'form'   : form,
+                        'formset': formset,
+                        'title'  : 'Record Sale',
+                        'error'  : f'Not enough stock for {item.product}. '
+                                   f'Only {item.product.quantity_in_stock} available.'
+                    })
+                # link item to sale
+                item.sale = sale
+                # Update the product quantity in stock
+                item.product.quantity_in_stock -= item.quantity
+                item.product.save()
+                item.save()
 
             # Transport calculation
             goods_total = sale.goods_total()
@@ -89,23 +102,19 @@ def sale_add(request):
                 sale.transport_fee    = 0
                 sale.transport_status = 'none'
 
-            # Update the product quantity in stock
-            item.product.quantity_in_stock -= item.quantity
-            item.product.save()
-
             # Save the sale again with transport details
             sale.save()
 
             return redirect('sale_receipt', pk=sale.pk)
 
     else:
-        form     = SaleForm()
-        itemform = SaleItemForm()
+        form    = SaleForm()
+        formset = SaleItemFormSet()
 
     return render(request, 'sales/sale_form.html', {
-        'form'    : form,
-        'itemform': itemform,
-        'title'   : 'Record Sale',
+        'form'   : form,
+        'formset': formset,
+        'title'  : 'Record Sale',
     })
 
 
@@ -148,8 +157,8 @@ def sales_dashboard(request):
     total_customers = Customer.objects.count()
 
     return render(request, 'sales/dashboard.html', {
-        'recent_sales' : recent_sales,
-        'total_sales'  : total_sales,
-        'total_revenue': total_revenue,
+        'recent_sales'   : recent_sales,
+        'total_sales'    : total_sales,
+        'total_revenue'  : total_revenue,
         'total_customers': total_customers,
     })
