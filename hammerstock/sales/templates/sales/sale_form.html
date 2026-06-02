@@ -7,7 +7,9 @@
 <h1>{{ title }}</h1>
 
 <div class="action-bar">
-    <a href="{% url 'sales_dashboard' %}">Back to Dashboard</a>
+    <a href="{% url 'sales_dashboard' %}">
+        <i class="bi bi-arrow-left" style="margin-right: 5px;"></i>
+        Back to Dashboard</a>
 </div>
 
 <form method="post">

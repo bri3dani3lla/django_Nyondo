@@ -36,8 +36,8 @@
                 <th>Date</th>
                 <th>Customer</th>
                 <th>Goods Total</th>
-                <th>Transport</th>
                 <th>Grand Total</th>
+                <th>Delivery Status</th>
                 <th>Served By</th>
             </tr>
         </thead>
@@ -48,7 +48,6 @@
                 <td>{{ sale.sale_date }}</td>
                 <td>{{ sale.customer|default:"Walk-in" }}</td>
                 <td>{{ sale.goods_total|floatformat:0 }} UGX</td>
-                <td>{{ sale.get_transport_status_display }}</td>
                 <td>{{ sale.grand_total|floatformat:0 }} UGX</td>
                 <td>
     {% if sale.transport_status == 'free' %}
@@ -63,7 +62,7 @@
                      padding: 4px 10px; border-radius: 20px;
                      font-size: 12px; font-weight: 600;">
             <i class="bi bi-truck" style="margin-right: 3px;"></i>
-            Charged 30,000
+            Charged 30,000 UGX
         </span>
     {% else %}
         <span style="background: #f2e8d5; color: #888;

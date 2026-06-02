@@ -3,8 +3,37 @@ from .models import Sale, SaleItem, Customer
 
 class CustomerForm(forms.ModelForm):
     class Meta:
-        model = Customer
+        model  = Customer
         fields = ['name', 'phone', 'address']
+
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        
+        # phone is optional on customer — only validate if provided
+        if not phone:
+            return phone
+
+        phone = phone.replace(' ', '')
+
+        if phone.startswith('+256'):
+            number = phone[4:]
+            if not number.isdigit():
+                raise forms.ValidationError('Phone number must contain digits only.')
+            if len(number) != 9:
+                raise forms.ValidationError('Invalid Ugandan phone number.')
+            if not (number.startswith('7') or number.startswith('3')):
+                raise forms.ValidationError('Invalid Ugandan phone number.')
+        elif phone.startswith('0'):
+            if not phone.isdigit():
+                raise forms.ValidationError('Phone number must contain digits only.')
+            if len(phone) != 10:
+                raise forms.ValidationError('Phone number must be 10 digits e.g. 0712345678.')
+            if not (phone.startswith('07') or phone.startswith('03')):
+                raise forms.ValidationError('Invalid Ugandan phone number. Must start with 07 or 03.')
+        else:
+            raise forms.ValidationError('Enter a valid Ugandan phone number e.g. 0712345678.')
+
+        return phone
         
 class SaleForm(forms.ModelForm):
       # render payment_status as radio buttons not a dropdown

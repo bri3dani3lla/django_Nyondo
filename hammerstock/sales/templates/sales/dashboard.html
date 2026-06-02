@@ -64,7 +64,29 @@
                 <td>{{ sale.customer|default:"Walk-in" }}</td>
                 <td>{{ sale.sale_date }}</td>
                 <td>{{ sale.goods_total }} UGX</td>
-                <td>{{ sale.get_transport_status_display }}</td>
+                <td>
+    {% if sale.transport_status == 'free' %}
+        <span style="background: #DFF5E1; color: #176B2C;
+                     padding: 4px 10px; border-radius: 20px;
+                     font-size: 12px; font-weight: 600;">
+            <i class="bi bi-check-circle" style="margin-right: 3px;"></i>
+            Free Delivery
+        </span>
+    {% elif sale.transport_status == 'charged' %}
+        <span style="background: #FFF4D6; color: #B77900;
+                     padding: 4px 10px; border-radius: 20px;
+                     font-size: 12px; font-weight: 600;">
+            <i class="bi bi-truck" style="margin-right: 3px;"></i>
+            Charged 30,000
+        </span>
+    {% else %}
+        <span style="background: #f2e8d5; color: #888;
+                     padding: 4px 10px; border-radius: 20px;
+                     font-size: 12px; font-weight: 600;">
+            No Delivery
+        </span>
+    {% endif %}
+</td>
                 <td>{{ sale.grand_total }} UGX</td>
                 <td>
                     <a class="action-edit" href="{% url 'sale_receipt' sale.pk %}">View Receipt</a>
