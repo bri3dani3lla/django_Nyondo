@@ -133,5 +133,5 @@ STATICFILES_STORAGE = (
 LOGIN_URL = '/login/'
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.railway.app",
+    "https://djangonyondo-production.up.railway.app",
 ]
