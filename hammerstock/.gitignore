@@ -1,0 +1,7 @@
+_pyache_/
+*._pyc 
+venv/
+db.sqlite3
+staticfiles/
+.env
+.vscode/
