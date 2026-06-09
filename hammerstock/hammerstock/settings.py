@@ -131,3 +131,7 @@ STATICFILES_STORAGE = (
 ) 
 # redirect to login page if user is not logged in
 LOGIN_URL = '/login/'
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.railway.app",
+]
